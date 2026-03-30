@@ -44,17 +44,17 @@ const Login = () => {
     {
       icon: <ShieldCheck size={22} />,
       title: 'Real-time tracking',
-      desc: 'Complete visibility into your high-value assets across global jurisdictions.',
+      desc: 'Track all purchased items and their warranty status in real time.',
     },
     {
       icon: <RefreshCw size={22} />,
       title: 'Automated workflows',
-      desc: 'Smart notification systems for renewals and fulfillment triggers.',
+      desc: 'Notifications for order updates and approvals.',
     },
     {
       icon: <Lock size={22} />,
       title: 'Secure management',
-      desc: 'Military-grade encryption for all institutional purchase data.',
+      desc: 'Keeps all purchase and warranty data safe.',
     },
   ];
 
@@ -100,7 +100,7 @@ const Login = () => {
         <div className={styles.brandingFooter}>
           <div className={styles.goldDivider} />
           <p className={styles.brandingTagline}>
-            Refining the digital archive for global institutions.
+            Making warranty and purchase data easy to store, track, and manage.
           </p>
         </div>
       </section>
@@ -126,7 +126,7 @@ const Login = () => {
                   id="email"
                   type="email"
                   className={styles.input}
-                  placeholder="name@enterprise.com"
+                  placeholder="yourname@example.com"
                   {...register('email')}
                   autoComplete="email"
                 />
