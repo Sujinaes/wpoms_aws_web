@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   Menu,
   X,
@@ -19,6 +19,7 @@ import {
   Lock,
 } from "lucide-react";
 import styles from "./Home.module.css";
+import { Logo } from "../../components/logo/Logo";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,12 +38,9 @@ const Navbar = () => {
       className={`${styles.nav_navbar} ${scrolled ? styles.nav_scrolled : ""}`}
     >
       <div className={styles.nav_container}>
-        <div className={styles.nav_logo}>
-          <span className={styles.nav_logoText}>WPOMS</span>
-        </div>
-
+        <Logo />
         <div className={styles.nav_desktopLinks}>
-          {["Features", "Services", "About", "FAQ"].map((item) => (
+          {["Services", "Features", "FAQ"].map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
@@ -54,14 +52,14 @@ const Navbar = () => {
         </div>
 
         <div className={styles.nav_desktopActions}>
-          <RouterLink to="/login">
+          <Link to="/login">
             <button className={styles.nav_signInBtn}>Sign In</button>
-          </RouterLink>
-          <RouterLink to="/register">
+          </Link>
+          <Link to="/register">
             <button className={`${styles.nav_registerBtn} gold-gradient`}>
               Register
             </button>
-          </RouterLink>
+          </Link>
         </div>
 
         <button
@@ -103,19 +101,20 @@ const Hero = () => {
         <div className={styles.hero_content}>
           <div className={`${styles.hero_badge} animate-fade-in-up`}>
             <span className={styles.hero_badgeText}>
-              Elite Procurement Standard
+              Warranty Management, Simplified
             </span>
           </div>
           <h1 className={`${styles.hero_title} animate-fade-in-up`}>
-            The Digital Archive for Global{" "}
-            <span className={styles.hero_goldText}>
-              Procurement & Warranties.
-            </span>
+            Register Products.
+            <br />Claim Warranties.{" "}
+            <br />
+            <span className={styles.hero_goldText}>Get Resolved Fast.</span>
+
           </h1>
           <p className={`${styles.hero_description} animate-fade-in-up`}>
-            WPOMS is an elite multi-user ecosystem for manufacturers, vendors,
-            and customers to streamline purchase orders and professional
-            warranty lifecycles.
+            WPOMS connects manufacturers, vendors, customers, and staff on a
+            single platform to manage the complete warranty lifecycle — from
+            product registration to claim approval, transparently and efficiently.
           </p>
           <div className={`${styles.hero_actions} animate-fade-in-up`}>
             <button className={`${styles.hero_primaryBtn} gold-gradient`}>
@@ -124,33 +123,42 @@ const Hero = () => {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
+
 
 const servicesList = [
   {
     title: "Manufacturers",
     description:
-      "Centralize your production output and warranty issuance with blockchain-grade traceability.",
+      "List your products, issue warranties, and review incoming claims. Approve or reject warranty requests with full context and keep your customers informed at every step.",
     icon: Factory,
     color: "gold",
   },
   {
     title: "Vendors",
     description:
-      "Manage complex procurement cycles and inventory distribution with real-time analytics.",
+      "Manage your product catalog and facilitate the purchase experience. Bridge the gap between manufacturers and customers with streamlined order processing.",
     icon: Store,
     color: "navy",
   },
   {
     title: "Customers",
     description:
-      "A unified digital vault for all your high-value purchase records and active warranties.",
+      "Register your purchased products, activate warranties, and raise claims whenever issues arise. Track the status of every claim in real time — all in one place.",
     icon: Users,
     color: "gold",
   },
+  {
+    title: "Staff",
+    description:
+      "Support manufacturers and vendors by handling day-to-day tasks — processing claims, updating statuses, and communicating with customers — with scoped, role-based access.",
+    icon: UserCheck,
+    color: "gold",
+  },
 ];
+
 
 const Services = () => {
   return (
@@ -167,7 +175,7 @@ const Services = () => {
           {servicesList.map((service, index) => (
             <div key={index} className={`${styles.serv_card} animate-scale-in`}>
               <div
-                className={`${styles.serv_iconWrapper} ${service.color === "gold" ? styles.serv_goldIcon : styles.serv_navyIcon}`}
+                className={`${styles.serv_iconWrapper} ${styles.serv_goldIcon}`}
               >
                 <service.icon size={32} />
               </div>
@@ -190,11 +198,11 @@ const Features = () => {
         <div className={styles.feat_grid}>
           <div className={styles.feat_content}>
             <h2 className={styles.feat_title}>
-              Precision Features for High-Value Assets
+              Manage Warranties<br /> End-to-End
             </h2>
             <p className={styles.feat_subtitle}>
-              Our platform is engineered to handle the most demanding
-              procurement environments with absolute integrity.
+              From the moment a product is purchased to the final resolution of
+              a claim, WPOMS handles it all with clarity and control.
             </p>
             <div className={styles.feat_featureList}>
               <div className={styles.feat_featureItem}>
@@ -203,11 +211,11 @@ const Features = () => {
                 </div>
                 <div>
                   <h3 className={styles.feat_featureTitle}>
-                    Regulatory Compliance
+                    Product Registration & Warranty Activation
                   </h3>
                   <p className={styles.feat_featureDescription}>
-                    Automated adherence to international trade and warranty
-                    standards.
+                    Customers register purchased products directly on the platform
+                    to activate their warranty — no paperwork, no hassle.
                   </p>
                 </div>
               </div>
@@ -217,32 +225,46 @@ const Features = () => {
                 </div>
                 <div>
                   <h3 className={styles.feat_featureTitle}>
-                    End-to-End Traceability
+                    Structured Claim Submission
                   </h3>
                   <p className={styles.feat_featureDescription}>
-                    Every asset has a verifiable digital pedigree from factory
-                    to customer.
+                    Customers submit claims with all necessary details and
+                    attachments — manufacturers can review, communicate, and
+                    resolve issues efficiently.
                   </p>
                 </div>
               </div>
-              <div className={styles.feat_featureItem}>
+              {/* <div className={styles.feat_featureItem}>
                 <div className={styles.feat_iconWrapper}>
                   <UserCheck size={24} />
                 </div>
                 <div>
                   <h3 className={styles.feat_featureTitle}>
-                    Role-Based Control
+                    Manufacturer Approval Workflow
                   </h3>
                   <p className={styles.feat_featureDescription}>
-                    Granular permissions ensuring each stakeholder sees only
-                    what they need.
+                    Manufacturers review and approve or reject claims with
+                    clear reasoning, keeping the process transparent and
+                    accountable.
                   </p>
                 </div>
-              </div>
+              </div> */}
+              {/* <div className={styles.feat_featureItem}>
+                <div className={styles.feat_iconWrapper}>
+                  <FileText size={24} />
+                </div>
+                <div>
+                  <h3 className={styles.feat_featureTitle}>Role-Based Access for Staff</h3>
+                  <p className={styles.feat_featureDescription}>
+                    Staff members under manufacturers or vendors get scoped access
+                    to handle tasks without full administrative control.
+                  </p>
+                </div>
+              </div> */}
             </div>
           </div>
-          <div className={styles.feat_imageWrapper}>
-            <div className={styles.feat_imageContainer}>
+          <div className={`${styles.feat_imageWrapper} `}>
+            <div className={`${styles.feat_imageContainer} `}>
               <img
                 src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2070"
                 alt="Data Visualization"
@@ -251,7 +273,7 @@ const Features = () => {
               />
               <div className={`${styles.feat_statCard} animate-scale-in`}>
                 <div className={styles.feat_statValue}>99.9%</div>
-                <div className={styles.feat_statLabel}>Uptime Reliability</div>
+                <div className={styles.feat_statLabel}>Claim Traceability</div>
               </div>
             </div>
           </div>
@@ -261,28 +283,35 @@ const Features = () => {
   );
 };
 
+
 const faqs = [
   {
-    question: "How secure is the digital archive?",
+    question: "How do I register a product and activate my warranty?",
     answer:
-      "Our platform uses enterprise-grade encryption and blockchain-inspired traceability to ensure that every record is immutable and accessible only by authorized stakeholders.",
+      "After purchasing a product, sign in to WPOMS as a customer, navigate to 'My Products', and register your product using the purchase details. This automatically activates the warranty associated with it.",
   },
   {
-    question: "Can I integrate WPOMS with my existing ERP?",
+    question: "How do I submit a warranty claim?",
     answer:
-      "Yes, WPOMS offers a robust API suite that allows for seamless integration with major ERP systems like SAP, Oracle, and Microsoft Dynamics.",
+      "Go to the registered product in your dashboard, click 'Raise a Claim', describe the issue in detail, and submit. The claim is instantly sent to the manufacturer for review.",
   },
   {
-    question: "What happens if a vendor goes out of business?",
+    question: "How does the manufacturer approve or reject a claim?",
     answer:
-      "The digital archive is independent of the vendor. Once a warranty is issued and archived, it remains accessible to the customer and manufacturer regardless of the vendor's status.",
+      "Manufacturers and their staff receive claims in their dashboard. They can review the details, add notes, and approve or reject the claim. You'll be notified of the decision with any reasoning provided.",
   },
   {
-    question: "Is there a limit to the number of warranties I can store?",
+    question: "What can staff members do on WPOMS?",
     answer:
-      "No, our cloud-native architecture is designed for infinite scalability, allowing you to archive millions of records with sub-second retrieval speeds.",
+      "Staff are sub-accounts under a manufacturer or vendor. They can handle tasks like reviewing claims, updating statuses, and communicating with customers — but don't have full administrative access like creating products or managing accounts.",
+  },
+  {
+    question: "Can vendors raise warranty claims on behalf of customers?",
+    answer:
+      "Vendors primarily manage their product catalog and orders. Warranty claims are raised by customers directly and processed by manufacturers, keeping the chain clear and accountable.",
   },
 ];
+
 
 const FAQ = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -337,11 +366,11 @@ const CTA = () => {
         <div className={`${styles.cta_card} gold-gradient`}>
           <div className={styles.cta_content}>
             <h2 className={styles.cta_title}>
-              Secure Your Digital Archive Today.
+              Start Managing Warranties the Right Way.
             </h2>
             <p className={styles.cta_subtitle}>
-              Join the elite network of manufacturers and vendors who are
-              redefining the procurement lifecycle.
+              Join manufacturers, vendors, and customers who rely on WPOMS for
+              a clear, accountable warranty process — from registration to resolution.
             </p>
             <div className={styles.cta_actions}>
               <button className={styles.cta_primaryBtn}>
@@ -355,26 +384,25 @@ const CTA = () => {
   );
 };
 
+
 const Footer = () => {
   return (
     <footer className={styles.foot_footer}>
       <div className={styles.foot_container}>
         <div className={styles.foot_grid}>
           <div className={styles.foot_branding}>
-            <div className={styles.foot_logo}>
-              <span className={styles.foot_logoText}>WPOMS</span>
-            </div>
+            <Logo />
             <p className={styles.foot_tagline}>
-              The Digital Archive for Global Procurement & Warranties.
+              Warranty Management for Manufacturers, Vendors & Customers.
             </p>
             <div className={styles.foot_trustBadges}>
               <div className={styles.foot_badge}>
                 <Shield size={16} />
-                <span>ISO 27001</span>
+                <span>Secure Claims</span>
               </div>
               <div className={styles.foot_badge}>
                 <Globe size={16} />
-                <span>Global Standard</span>
+                <span>Multi-Role Access</span>
               </div>
               <div className={styles.foot_badge}>
                 <Lock size={16} />
@@ -391,6 +419,9 @@ const Footer = () => {
                 </li>
                 <li>
                   <a href="#services">Services</a>
+                </li>
+                <li>
+                  <a href="#how-it-works">How It Works</a>
                 </li>
                 <li>
                   <a href="#faq">FAQ</a>
@@ -417,9 +448,7 @@ const Footer = () => {
           </div>
         </div>
         <div className={styles.foot_bottom}>
-          <p className={styles.foot_copyright}>
-            © 2026 WPOMS Ecosystem. All rights reserved.
-          </p>
+          <p className={styles.foot_copyright}>© 2026 WPOMS. All rights reserved.</p>
           <div className={styles.foot_socials}>
             <a href="#">LinkedIn</a>
             <a href="#">Twitter</a>
@@ -430,7 +459,6 @@ const Footer = () => {
     </footer>
   );
 };
-
 const Home = () => {
   return (
     <div className={styles.home}>
