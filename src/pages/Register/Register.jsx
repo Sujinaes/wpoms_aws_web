@@ -113,12 +113,12 @@ const Register = () => {
   // Persisted form data across all steps
   const [allData, setAllData] = useState({});
 
-  
+
   const basicForm = useForm({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: { fullName: '', email: '', password: '', confirmPassword: '' },
   });
-  
+
   const password = basicForm.watch('password');
 
   // ── Step 1 form ──────────────────────────────────────────────────
@@ -152,7 +152,7 @@ const Register = () => {
   const handleDetailsSubmit = async (data) => {
     const finalData = { ...allData, ...data };
     console.log('Final submission:', finalData);
-    
+
     try {
       if (finalData.role === 'manufacturer') {
         const payload = {
@@ -521,10 +521,10 @@ const Register = () => {
                 </InputRow>
                 <InputRow>
                   <Field label="Date of Birth" error={errors.dateOfBirth?.message}>
-                     <div className={styles.inputWrapper}>
-                        <input {...register('dateOfBirth')} type="date" className={styles.input} />
-                        <span className={styles.inputIcon}><Calendar size={18} /></span>
-                     </div>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('dateOfBirth')} type="date" className={styles.input} />
+                      <span className={styles.inputIcon}><Calendar size={18} /></span>
+                    </div>
                   </Field>
                   <Field label="Contact Preference" error={errors.contactPreference?.message}>
                     <select {...register('contactPreference')} className={styles.input}>
@@ -537,15 +537,15 @@ const Register = () => {
                   </Field>
                 </InputRow>
                 <Field label="Shipping Address" error={errors.shippingAddress?.message}>
-                    <div className={styles.inputWrapper}>
-                        <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. Harishma Bhavan, Kurumpaloor" />
-                        <span className={styles.inputIcon}><MapPin size={18} /></span>
-                    </div>
+                  <div className={styles.inputWrapper}>
+                    <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. Harishma Bhavan, Kurumpaloor" />
+                    <span className={styles.inputIcon}><MapPin size={18} /></span>
+                  </div>
                 </Field>
               </>
             )}
 
-            
+
           </div>
 
           <footer className={styles.stepFooter}>
