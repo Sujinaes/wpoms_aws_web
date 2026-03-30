@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
+import { authService } from '../../services/authService';
 import { toast } from 'sonner';
 import * as z from 'zod';
 import {
@@ -35,7 +36,7 @@ const STEPS = [
 const ROLES = [
   { id: 'manufacturer', icon: <Factory size={28} />, title: 'Manufacturer', desc: 'Production & warranty management' },
   { id: 'vendor', icon: <ShoppingCart size={28} />, title: 'Vendor', desc: 'Sales & purchase orders' },
-  
+  { id: 'customer', icon: <User size={28} />, title: 'Customer', desc: 'Consumer & direct orders' },
 ];
 
 // ── Zod Schemas ───────────────────────────────────────────────────────────────
@@ -82,13 +83,21 @@ const manufacturerDetailsSchema = z.object({
 
 
 
+const customerDetailsSchema = z.object({
+  customerName: z.string().min(2, 'Name is required'),
+  phoneNo: z.string().min(7, 'Enter a valid phone number'),
+  dateOfBirth: z.string().min(1, 'Date of birth is required'),
+  shippingAddress: z.string().min(5, 'Address is required'),
+  contactPreference: z.string().min(1, 'Contact preference is required'),
+});
+
 // Returns the correct schema for step 2 based on selected role
 const getRoleDetailsSchema = (role) => {
   switch (role) {
     case 'vendor': return vendorDetailsSchema;
     case 'manufacturer': return manufacturerDetailsSchema;
+    case 'customer': return customerDetailsSchema;
     // case 'staff':        return staffDetailsSchema;
-    // case 'customer':     return customerDetailsSchema;
     default: return z.object({});
   }
 };
@@ -96,6 +105,7 @@ const getRoleDetailsSchema = (role) => {
 // ── Component 
 
 const Register = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -124,7 +134,7 @@ const Register = () => {
     defaultValues: {
       vendorName: '', vendorEmail: '', vendorAddress: '', vendorCity: '', vendorPhone: '', vendorGstNo: '',
       companyName: '', companyEmail: '', companyAddress: '', companyPhone: '', companyGstNo: '',
-      
+      customerName: '', phoneNo: '', dateOfBirth: '', shippingAddress: '', contactPreference: '',
     },
   });
 
@@ -139,10 +149,54 @@ const Register = () => {
     setStep(2);
   };
 
-  const handleDetailsSubmit = (data) => {
+  const handleDetailsSubmit = async (data) => {
     const finalData = { ...allData, ...data };
     console.log('Final submission:', finalData);
-    toast.success('Account created successfully! Welcome aboard.');
+    
+    try {
+      if (finalData.role === 'manufacturer') {
+        const payload = {
+          email: finalData.email,
+          password: finalData.password,
+          role: 'MANUFACTURER',
+          companyName: finalData.companyName,
+          companyEmail: finalData.companyEmail,
+          companyAddress: finalData.companyAddress,
+          companyPhone: finalData.companyPhone,
+          gstNumber: finalData.companyGstNo,
+        };
+        await authService.registerManufacturer(payload);
+      } else if (finalData.role === 'vendor') {
+        const payload = {
+          email: finalData.email,
+          password: finalData.password,
+          role: 'VENDOR',
+          vendorName: finalData.vendorName,
+          vendorEmail: finalData.vendorEmail,
+          address: finalData.vendorAddress,
+          phone: finalData.vendorPhone,
+          gstNumber: finalData.vendorGstNo,
+        };
+        await authService.registerVendor(payload);
+      } else if (finalData.role === 'customer') {
+        const payload = {
+          email: finalData.email,
+          password: finalData.password,
+          role: 'CUSTOMER',
+          customerName: finalData.customerName,
+          phoneNo: finalData.phoneNo,
+          dateOfBirth: finalData.dateOfBirth,
+          shippingAddress: finalData.shippingAddress,
+          contactPreference: finalData.contactPreference,
+        };
+        await authService.registerCustomer(payload);
+      }
+
+      toast.success('Account created successfully! Welcome aboard.');
+      navigate('/login');
+    } catch (error) {
+      toast.error(error.message || 'Registration failed. Please try again.');
+    }
   };
 
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
@@ -350,7 +404,7 @@ const Register = () => {
     const titles = {
       vendor: { title: 'Vendor Details', subtitle: 'Please provide the official credentials for your business entity to proceed with verification.' },
       manufacturer: { title: 'Manufacturer Details', subtitle: 'Provide official organizational information for record archival.' },
-      
+      customer: { title: 'Personal Details', subtitle: 'Please provide your basic contact details to set up your personal account.' },
     };
     const { title, subtitle } = titles[role] || { title: 'Role Details', subtitle: '' };
 
@@ -445,6 +499,48 @@ const Register = () => {
                       <p className={styles.uploadSub}>PDF, JPG, or PNG (Max 10MB)</p>
                     </div>
                   </div>
+                </Field>
+              </>
+            )}
+
+            {role === 'customer' && (
+              <>
+                <InputRow>
+                  <Field label="Full Name" error={errors.customerName?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('customerName')} type="text" className={styles.input} placeholder="e.g. Reshma M" />
+                      <span className={styles.inputIcon}><User size={18} /></span>
+                    </div>
+                  </Field>
+                  <Field label="Phone No" error={errors.phoneNo?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('phoneNo')} type="tel" className={styles.input} placeholder="e.g. 9041342409" />
+                      <span className={styles.inputIcon}><Phone size={18} /></span>
+                    </div>
+                  </Field>
+                </InputRow>
+                <InputRow>
+                  <Field label="Date of Birth" error={errors.dateOfBirth?.message}>
+                     <div className={styles.inputWrapper}>
+                        <input {...register('dateOfBirth')} type="date" className={styles.input} />
+                        <span className={styles.inputIcon}><Calendar size={18} /></span>
+                     </div>
+                  </Field>
+                  <Field label="Contact Preference" error={errors.contactPreference?.message}>
+                    <select {...register('contactPreference')} className={styles.input}>
+                      <option value="">Select Priority</option>
+                      <option value="Phone">Phone</option>
+                      <option value="Email">Email</option>
+                      <option value="SMS">SMS</option>
+                      <option value="Whatsapp">WhatsApp</option>
+                    </select>
+                  </Field>
+                </InputRow>
+                <Field label="Shipping Address" error={errors.shippingAddress?.message}>
+                    <div className={styles.inputWrapper}>
+                        <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. Harishma Bhavan, Kurumpaloor" />
+                        <span className={styles.inputIcon}><MapPin size={18} /></span>
+                    </div>
                 </Field>
               </>
             )}
