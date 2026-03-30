@@ -35,7 +35,7 @@ const STEPS = [
 const ROLES = [
   { id: 'manufacturer', icon: <Factory size={28} />, title: 'Manufacturer', desc: 'Production & warranty management' },
   { id: 'vendor', icon: <ShoppingCart size={28} />, title: 'Vendor', desc: 'Sales & purchase orders' },
-  
+  { id: 'customer',     icon: <Globe size={28} />,        title: 'Customer',     desc: 'Track warranties & orders' },
 ];
 
 // ── Zod Schemas ───────────────────────────────────────────────────────────────
@@ -79,6 +79,13 @@ const manufacturerDetailsSchema = z.object({
   companyPhone: z.string().min(7, 'Enter a valid phone number'),
   companyGstNo: z.string().min(3, 'GST / Business Reg No. is required'),
 });
+const customerDetailsSchema = z.object({
+  customerPhone:        z.string().min(7, 'Enter a valid phone number'),
+  customerDob:          z.string().min(1, 'Date of birth is required'),
+  shippingAddress:      z.string().min(10, 'Please enter a full shipping address'),
+  primaryContactNumber: z.string().min(7, 'Enter a valid contact number'),
+});
+
 
 
 
@@ -87,8 +94,7 @@ const getRoleDetailsSchema = (role) => {
   switch (role) {
     case 'vendor': return vendorDetailsSchema;
     case 'manufacturer': return manufacturerDetailsSchema;
-    // case 'staff':        return staffDetailsSchema;
-    // case 'customer':     return customerDetailsSchema;
+    case 'customer':     return customerDetailsSchema;
     default: return z.object({});
   }
 };
@@ -109,22 +115,22 @@ const Register = () => {
     defaultValues: { fullName: '', email: '', password: '', confirmPassword: '' },
   });
   
-  const password = basicForm.watch('password');
 
-  // ── Step 1 form ──────────────────────────────────────────────────
+  // form ──────────────────────────────────────────────────
   const roleForm = useForm({
     resolver: zodResolver(roleSchema),
     defaultValues: { role: '' },
   });
+
   const selectedRole = roleForm.watch('role');
 
-  // ── Step 2 form (dynamic schema based on role) ───────────────────
+  //  form (dynamic schema based on role) ───────────────────
   const detailsForm = useForm({
     resolver: zodResolver(getRoleDetailsSchema(allData.role || selectedRole)),
     defaultValues: {
       vendorName: '', vendorEmail: '', vendorAddress: '', vendorCity: '', vendorPhone: '', vendorGstNo: '',
       companyName: '', companyEmail: '', companyAddress: '', companyPhone: '', companyGstNo: '',
-      
+      customerPhone: '', customerDob: '', shippingAddress: '', primaryContactNumber: '',
     },
   });
 
@@ -146,20 +152,6 @@ const Register = () => {
   };
 
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
-
-  // ── Password strength ────────────────────────────────────────────
-  const getStrength = (pwd) => {
-    if (!pwd) return 0;
-    let score = 0;
-    if (pwd.length >= 8) score++;
-    if (/[A-Z]/.test(pwd)) score++;
-    if (/[0-9]/.test(pwd)) score++;
-    if (/[^A-Za-z0-9]/.test(pwd)) score++;
-    return score;
-  };
-  const strength = getStrength(password);
-  const strengthLabel = ['', 'Weak', 'Fair', 'Strong', 'Very Strong'][strength];
-  const strengthColor = ['', '#ef4444', '#f59e0b', '#745b00', '#16a34a'][strength];
 
   const progressPct = Math.round(((step + 1) / STEPS.length) * 100);
 
@@ -229,22 +221,6 @@ const Register = () => {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-            {password && (
-              <div className={styles.strengthWrap}>
-                <div className={styles.strengthBars}>
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className={styles.strengthBar}
-                      style={{ backgroundColor: i <= strength ? strengthColor : '#dee3ec' }}
-                    />
-                  ))}
-                </div>
-                <span className={styles.strengthLabel} style={{ color: strengthColor }}>
-                  {strengthLabel}
-                </span>
-              </div>
-            )}
           </Field>
 
           <Field label="Confirm Password" error={basicForm.formState.errors.confirmPassword?.message}>
@@ -350,7 +326,8 @@ const Register = () => {
     const titles = {
       vendor: { title: 'Vendor Details', subtitle: 'Please provide the official credentials for your business entity to proceed with verification.' },
       manufacturer: { title: 'Manufacturer Details', subtitle: 'Provide official organizational information for record archival.' },
-      
+      customer:     { title: 'Customer Details',      subtitle: 'Provide the primary administrative contact details for seamless warranty management.' },
+
     };
     const { title, subtitle } = titles[role] || { title: 'Role Details', subtitle: '' };
 
@@ -448,6 +425,43 @@ const Register = () => {
                 </Field>
               </>
             )}
+
+            {role === 'customer' && (
+              <>
+                <InputRow>
+                  <Field label="Phone Number" error={errors.customerPhone?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('customerPhone')} type="tel" className={styles.input} placeholder="+1 (555) 000-0000" />
+                      <span className={styles.inputIcon}><Phone size={18} /></span>
+                    </div>
+                  </Field>
+                  <Field label="Date of Birth" error={errors.customerDob?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('customerDob')} type="date" className={styles.input} />
+                      <span className={styles.inputIcon}><Calendar size={18} /></span>
+                    </div>
+                  </Field>
+                </InputRow>
+                <Field label="Shipping Address" error={errors.shippingAddress?.message}>
+                  <div className={styles.inputWrapper}>
+                    <textarea
+                      {...register('shippingAddress')}
+                      className={`${styles.input} ${styles.textarea}`}
+                      placeholder="Enter full street address, apartment, suite, etc."
+                      rows={3}
+                    />
+                    <span className={`${styles.inputIcon} ${styles.inputIconTop}`}><MapPin size={18} /></span>
+                  </div>
+                </Field>
+                <Field label="Primary Contact Number" error={errors.primaryContactNumber?.message}>
+                  <div className={styles.inputWrapper}>
+                    <input {...register('primaryContactNumber')} type="tel" className={styles.input} placeholder="+1 (555) 000-0000" />
+                    <span className={styles.inputIcon}><Phone size={18} /></span>
+                  </div>
+                </Field>
+              </>
+            )}
+
 
             
           </div>
