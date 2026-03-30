@@ -119,7 +119,6 @@ const Register = () => {
     defaultValues: { fullName: '', email: '', password: '', confirmPassword: '' },
   });
 
-  const password = basicForm.watch('password');
 
   // ── Step 1 form ──────────────────────────────────────────────────
   const roleForm = useForm({
@@ -201,19 +200,7 @@ const Register = () => {
 
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
 
-  // ── Password strength ────────────────────────────────────────────
-  const getStrength = (pwd) => {
-    if (!pwd) return 0;
-    let score = 0;
-    if (pwd.length >= 8) score++;
-    if (/[A-Z]/.test(pwd)) score++;
-    if (/[0-9]/.test(pwd)) score++;
-    if (/[^A-Za-z0-9]/.test(pwd)) score++;
-    return score;
-  };
-  const strength = getStrength(password);
-  const strengthLabel = ['', 'Weak', 'Fair', 'Strong', 'Very Strong'][strength];
-  const strengthColor = ['', '#ef4444', '#f59e0b', '#745b00', '#16a34a'][strength];
+
 
   const progressPct = Math.round(((step + 1) / STEPS.length) * 100);
 
@@ -283,22 +270,6 @@ const Register = () => {
                 {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
-            {password && (
-              <div className={styles.strengthWrap}>
-                <div className={styles.strengthBars}>
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className={styles.strengthBar}
-                      style={{ backgroundColor: i <= strength ? strengthColor : '#dee3ec' }}
-                    />
-                  ))}
-                </div>
-                <span className={styles.strengthLabel} style={{ color: strengthColor }}>
-                  {strengthLabel}
-                </span>
-              </div>
-            )}
           </Field>
 
           <Field label="Confirm Password" error={basicForm.formState.errors.confirmPassword?.message}>
