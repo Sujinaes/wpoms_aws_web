@@ -35,8 +35,7 @@ const STEPS = [
 const ROLES = [
   { id: 'manufacturer', icon: <Factory size={28} />, title: 'Manufacturer', desc: 'Production & warranty management' },
   { id: 'vendor', icon: <ShoppingCart size={28} />, title: 'Vendor', desc: 'Sales & purchase orders' },
-  // { id: 'staff',        icon: <User size={28} />,         title: 'Staff',        desc: 'Internal team, limited access' },
-  // { id: 'customer',     icon: <Globe size={28} />,        title: 'Customer',     desc: 'Track warranties & orders' },
+  
 ];
 
 // ── Zod Schemas ───────────────────────────────────────────────────────────────
@@ -104,7 +103,7 @@ const Register = () => {
   // Persisted form data across all steps
   const [allData, setAllData] = useState({});
 
-  // ── Step 0 form ──────────────────────────────────────────────────
+  
   const basicForm = useForm({
     resolver: zodResolver(basicInfoSchema),
     defaultValues: { fullName: '', email: '', password: '', confirmPassword: '' },
@@ -177,7 +176,7 @@ const Register = () => {
     <div className={styles.inputRow}>{children}</div>
   );
 
-  // ── Step 0: Basic Info ───────────────────────────────────────────
+  //  Basic Info ───────────────────────────────────────────
   const renderBasicInfo = () => (
     <div className={styles.stepContent}>
       <header className={styles.stepHeader}>
