@@ -81,17 +81,7 @@ const manufacturerDetailsSchema = z.object({
   companyGstNo: z.string().min(3, 'GST / Business Reg No. is required'),
 });
 
-// const staffDetailsSchema = z.object({
-//   staffId:      z.string().min(2, 'Staff ID is required'),
-//   tempPassword: z.string().min(6, 'Temporary password is required'),
-// });
 
-// const customerDetailsSchema = z.object({
-//   customerPhone:        z.string().min(7, 'Enter a valid phone number'),
-//   customerDob:          z.string().min(1, 'Date of birth is required'),
-//   shippingAddress:      z.string().min(10, 'Please enter a full shipping address'),
-//   primaryContactNumber: z.string().min(7, 'Enter a valid contact number'),
-// });
 
 // Returns the correct schema for step 2 based on selected role
 const getRoleDetailsSchema = (role) => {
@@ -104,7 +94,7 @@ const getRoleDetailsSchema = (role) => {
   }
 };
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// ── Component 
 
 const Register = () => {
   const [step, setStep] = useState(0);
@@ -135,8 +125,7 @@ const Register = () => {
     defaultValues: {
       vendorName: '', vendorEmail: '', vendorAddress: '', vendorCity: '', vendorPhone: '', vendorGstNo: '',
       companyName: '', companyEmail: '', companyAddress: '', companyPhone: '', companyGstNo: '',
-      // staffId: '', tempPassword: '',
-      // customerPhone: '', customerDob: '', shippingAddress: '', primaryContactNumber: '',
+      
     },
   });
 
@@ -293,7 +282,7 @@ const Register = () => {
     </div>
   );
 
-  // ── Step 1: Select Role ──────────────────────────────────────────
+  // Select Role ──────────────────────────────────────────
   const renderSelectRole = () => (
     <div className={styles.stepContent}>
       <header className={styles.stepHeader}>
@@ -354,7 +343,7 @@ const Register = () => {
     </div>
   );
 
-  // ── Step 2: Role Details ─────────────────────────────────────────
+  // Role Details ─────────────────────────────────────────
   const renderRoleDetails = () => {
     const role = allData.role;
     const { register, handleSubmit, formState: { errors } } = detailsForm;
@@ -362,8 +351,7 @@ const Register = () => {
     const titles = {
       vendor: { title: 'Vendor Details', subtitle: 'Please provide the official credentials for your business entity to proceed with verification.' },
       manufacturer: { title: 'Manufacturer Details', subtitle: 'Provide official organizational information for record archival.' },
-      // staff:        { title: 'Staff Details',         subtitle: 'Finalize your institutional credentials to access the WPOMS secure ledger.' },
-      // customer:     { title: 'Customer Details',      subtitle: 'Provide the primary administrative contact details for seamless warranty management.' },
+      
     };
     const { title, subtitle } = titles[role] || { title: 'Role Details', subtitle: '' };
 
@@ -462,68 +450,7 @@ const Register = () => {
               </>
             )}
 
-            {/* {role === 'staff' && (
-              <>
-                <InputRow>
-                  <Field label="Staff ID" error={errors.staffId?.message}>
-                    <div className={styles.inputWrapper}>
-                      <input {...register('staffId')} type="text" className={styles.input} placeholder="Enter ID" />
-                      <span className={styles.inputIcon}><BadgeCheck size={18} /></span>
-                    </div>
-                  </Field>
-                  <Field label="Temporary Password" error={errors.tempPassword?.message}>
-                    <div className={styles.inputWrapper}>
-                      <input {...register('tempPassword')} type="password" className={styles.input} placeholder="••••••••" />
-                      <span className={styles.inputIcon}><Lock size={18} /></span>
-                    </div>
-                  </Field>
-                </InputRow>
-                <div className={styles.infoBox}>
-                  <span className={styles.infoIcon}>ℹ</span>
-                  <p className={styles.infoText}>
-                    Staff accounts are provisioned by your Manufacturer. If you do not have your
-                    temporary credentials, please contact your regional administrator.
-                  </p>
-                </div>
-              </>
-            )} */}
-
-            {/* {role === 'customer' && (
-              <>
-                <InputRow>
-                  <Field label="Phone Number" error={errors.customerPhone?.message}>
-                    <div className={styles.inputWrapper}>
-                      <input {...register('customerPhone')} type="tel" className={styles.input} placeholder="+1 (555) 000-0000" />
-                      <span className={styles.inputIcon}><Phone size={18} /></span>
-                    </div>
-                  </Field>
-                  <Field label="Date of Birth" error={errors.customerDob?.message}>
-                    <div className={styles.inputWrapper}>
-                      <input {...register('customerDob')} type="date" className={styles.input} />
-                      <span className={styles.inputIcon}><Calendar size={18} /></span>
-                    </div>
-                  </Field>
-                </InputRow>
-                <Field label="Shipping Address" error={errors.shippingAddress?.message}>
-                  <div className={styles.inputWrapper}>
-                    <textarea
-                      {...register('shippingAddress')}
-                      className={`${styles.input} ${styles.textarea}`}
-                      placeholder="Enter full street address, apartment, suite, etc."
-                      rows={3}
-                    />
-                    <span className={`${styles.inputIcon} ${styles.inputIconTop}`}><MapPin size={18} /></span>
-                  </div>
-                </Field>
-                <Field label="Primary Contact Number" error={errors.primaryContactNumber?.message}>
-                  <div className={styles.inputWrapper}>
-                    <input {...register('primaryContactNumber')} type="tel" className={styles.input} placeholder="+1 (555) 000-0000" />
-                    <span className={styles.inputIcon}><Phone size={18} /></span>
-                  </div>
-                </Field>
-              </>
-            )} */}
-
+            
           </div>
 
           <footer className={styles.stepFooter}>
