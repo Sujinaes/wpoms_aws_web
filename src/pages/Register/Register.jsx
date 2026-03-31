@@ -26,7 +26,6 @@ import {
 import styles from './Register.module.css';
 
 // ── Constants 
-
 const STEPS = [
   { label: 'Basic Info', sub: 'Account Setup' },
   { label: 'Select Role', sub: 'Account Type' },
@@ -44,7 +43,6 @@ const ROLES = [
 
 const basicInfoSchema = z
   .object({
-    fullName: z.string().min(2, 'Full name must be at least 2 characters'),
     email: z.string().email('Please enter a valid email address'),
     password: z
       .string()
@@ -70,23 +68,21 @@ const vendorDetailsSchema = z.object({
   vendorEmail: z.string().email('Enter a valid business email'),
   vendorAddress: z.string().min(5, 'Address is required'),
   vendorCity: z.string().min(2, 'City is required'),
-  vendorPhone: z.string().min(7, 'Enter a valid phone number'),
-  vendorGstNo: z.string().min(3, 'GST / Registration number is required'),
+  vendorPhone: z.string().min(10, 'Enter a valid phone number'),
+  vendorGstNo: z.string().length(15, 'GST / Registration number must be 15 digits'),
 });
 
 const manufacturerDetailsSchema = z.object({
   companyName: z.string().min(2, 'Company name is required'),
   companyEmail: z.string().email('Enter a valid company email'),
   companyAddress: z.string().min(5, 'Registered address is required'),
-  companyPhone: z.string().min(7, 'Enter a valid phone number'),
-  companyGstNo: z.string().min(3, 'GST / Business Reg No. is required'),
+  companyPhone: z.string().min(10, 'Enter a valid phone number').max(14, "Enter a valid phone number"),
+  companyGstNo: z.string().length(15, 'GST / Business Reg No. must be 15 digits'),
 });
-
-
 
 const customerDetailsSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
-  phoneNo: z.string().min(7, 'Enter a valid phone number'),
+  phoneNo: z.string().min(10, 'Enter a valid phone number').max(14, "Enter a valid phone number"),
   dateOfBirth: z.string().min(1, 'Date of birth is required'),
   shippingAddress: z.string().min(5, 'Address is required'),
   contactPreference: z.string().min(1, 'Contact preference is required'),
@@ -177,37 +173,36 @@ const Register = () => {
         const payload = {
           email: finalData.email,
           password: finalData.password,
-          role: 'VENDOR',
+          role: finalData.role.toUpperCase(),
           vendorName: finalData.vendorName,
           vendorEmail: finalData.vendorEmail,
-          address: finalData.vendorAddress,
+          address: finalData.vendorAddress + "," + finalData.vendorCity,
           phone: finalData.vendorPhone,
           gstNumber: finalData.vendorGstNo,
-        };
+        }
         await authService.registerVendor(payload);
       } else if (finalData.role === 'customer') {
         const payload = {
           email: finalData.email,
-          password: finalData.password,
+          passwordHash: finalData.password,
           role: 'CUSTOMER',
           customerName: finalData.customerName,
           phoneNo: finalData.phoneNo,
           dateOfBirth: finalData.dateOfBirth,
           shippingAddress: finalData.shippingAddress,
-          contactPreference: finalData.contactPreference,
+          contactPreference: finalData.phoneNo,
         };
         await authService.registerCustomer(payload);
       }
 
       toast.success('Account created successfully! Welcome aboard.');
-      navigate('/login');
+      navigate('/dashboard');
     } catch (error) {
       toast.error(error.message || 'Registration failed. Please try again.');
     }
   };
 
   const handlePrev = () => setStep((s) => Math.max(s - 1, 0));
-
 
 
   const progressPct = Math.round(((step + 1) / STEPS.length) * 100);
@@ -237,19 +232,6 @@ const Register = () => {
 
       <form className={styles.form} onSubmit={basicForm.handleSubmit(handleBasicSubmit)}>
         <div className={styles.formCard}>
-
-          <Field label="Full Name" error={basicForm.formState.errors.fullName?.message}>
-            <div className={styles.inputWrapper}>
-              <input
-                {...basicForm.register('fullName')}
-                type="text"
-                className={styles.input}
-                placeholder="e.g. Alistair Thorne"
-              />
-              <span className={styles.inputIcon}><User size={18} /></span>
-            </div>
-          </Field>
-
           <Field label="Email Address" error={basicForm.formState.errors.email?.message}>
             <div className={styles.inputWrapper}>
               <input
