@@ -3,7 +3,9 @@ import Login from "../pages/Login/Login";
 import ManufacturerDashboard from "../pages/Dashboard/ManufacturerDashboard";
 import VendorDashboard from "../pages/Dashboard/VendorDashboard";
 import CustomerDashboard from "../pages/Dashboard/CustomerDashboard";
-import Profile from "../pages/Profile/Profile";
+import ManufacturerProfile from "../pages/Profile/ManufacturerProfile";
+import VendorProfile from "../pages/Profile/VendorProfile";
+import CustomerProfile from "../pages/Profile/CustomerProfile";
 
 const AppRoutes = () => {
   return (
@@ -15,7 +17,10 @@ const AppRoutes = () => {
       <Route path="/vendor/dashboard" element={<VendorDashboard />} />
       {/* Customer Dashboard */}
       <Route path="/customer/dashboard" element={<CustomerDashboard />} />
-      <Route path="/profile" element={<Profile />} />
+      {/* Profiles */}
+      <Route path="/manufacturer/profile" element={<ManufacturerProfile />} />
+      <Route path="/vendor/profile" element={<VendorProfile />} />
+      <Route path="/customer/profile" element={<CustomerProfile />} />
     </Routes>
   );
 };

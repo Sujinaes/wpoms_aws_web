@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShieldCheck, RefreshCw, Lock, AtSign, Eye, EyeOff } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +15,8 @@ const loginSchema = z.object({
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState('manufacturer');
+  const navigate = useNavigate();
 
   const {
     register,
@@ -32,9 +34,10 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       // TODO: connect to auth service
-      console.log('Login attempt:', data);
+      console.log('Login attempt:', data, 'Role:', role);
       await new Promise((resolve) => setTimeout(resolve, 500));
       toast.success('Login successful');
+      navigate(`/${role}/dashboard`);
     } catch (error) {
       toast.error('Login failed');
     }
@@ -166,6 +169,29 @@ const Login = () => {
                 </button>
               </div>
               {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
+            </div>
+
+            {/* Role Select */}
+            <div className={styles.fieldGroup}>
+              <label className={styles.label} htmlFor="role">
+                Portal Role
+              </label>
+              <div className={styles.inputWrapper}>
+                <select
+                  id="role"
+                  className={styles.input}
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                  style={{ cursor: 'pointer', appearance: 'none', paddingRight: '2.5rem' }}
+                >
+                  <option value="manufacturer">Manufacturer</option>
+                  <option value="vendor">Vendor</option>
+                  <option value="customer">Customer</option>
+                </select>
+                <span className={styles.inputIcon} style={{ pointerEvents: 'none' }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#94a3b8' }}>expand_more</span>
+                </span>
+              </div>
             </div>
 
             {/* Remember me */}

@@ -136,58 +136,7 @@ const Profile = () => {
               </form>
             </div>
 
-            {/* Right Column: Security & Danger Zone */}
-            <div className="settings-column">
-              
-              {/* Security Card */}
-              <div className="settings-card">
-                <div className="card-header">
-                  <h3 className="card-title">Security</h3>
-                  <span className="material-symbols-outlined card-icon">shield</span>
-                </div>
-                
-                <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
-                  <div className="form-group">
-                    <label className="form-label">Current Password</label>
-                    <input className="form-input" placeholder="••••••••••••" type="password" />
-                  </div>
-                  <div className="form-group">
-                    <label className="form-label">New Password</label>
-                    <input className="form-input" type="password" />
-                  </div>
-                  
-                  <div className="tfa-section">
-                    <div className="tfa-info">
-                      <p className="tfa-title">Two-Factor Authentication</p>
-                      <p className="tfa-subtitle">Secure your account with 2FA</p>
-                    </div>
-                    <label className="toggle-switch">
-                      <input defaultChecked className="toggle-input" type="checkbox" />
-                      <div className="toggle-slider"></div>
-                    </label>
-                  </div>
 
-                  <button className="btn-outline" type="button">
-                    Update Password
-                  </button>
-                </form>
-              </div>
-
-              {/* Danger Zone */}
-              <div className="danger-zone">
-                <div className="danger-header">
-                  <span className="material-symbols-outlined danger-icon">warning</span>
-                  <h3 className="danger-title">Danger Zone</h3>
-                </div>
-                <p className="danger-text">
-                  Once you delete your account, there is no going back. All archive records associated with your profile will be reassigned or permanently archived.
-                </p>
-                <button className="btn-danger">
-                  Delete Account
-                </button>
-              </div>
-
-            </div>
           </div>
 
           {/* Background Decoration */}
