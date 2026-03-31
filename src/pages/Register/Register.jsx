@@ -37,6 +37,7 @@ const ROLES = [
   { id: 'manufacturer', icon: <Factory size={28} />, title: 'Manufacturer', desc: 'Production & warranty management' },
   { id: 'vendor', icon: <ShoppingCart size={28} />, title: 'Vendor', desc: 'Sales & purchase orders' },
   { id: 'customer', icon: <User size={28} />, title: 'Customer', desc: 'Consumer & direct orders' },
+  { id: 'staff',        icon: <User size={28} />,         title: 'Staff',        desc: 'Internal team, limited access' },
 ];
 
 // ── Zod Schemas ───────────────────────────────────────────────────────────────
@@ -91,13 +92,19 @@ const customerDetailsSchema = z.object({
   contactPreference: z.string().min(1, 'Contact preference is required'),
 });
 
+const staffDetailsSchema = z.object({
+  staffId:      z.string().min(2, 'Staff ID is required'),
+  tempPassword: z.string().min(6, 'Temporary password is required'),
+});
+
+
 // Returns the correct schema for step 2 based on selected role
 const getRoleDetailsSchema = (role) => {
   switch (role) {
     case 'vendor': return vendorDetailsSchema;
     case 'manufacturer': return manufacturerDetailsSchema;
     case 'customer': return customerDetailsSchema;
-    // case 'staff':        return staffDetailsSchema;
+    case 'staff':        return staffDetailsSchema;
     default: return z.object({});
   }
 };
@@ -134,6 +141,7 @@ const Register = () => {
       vendorName: '', vendorEmail: '', vendorAddress: '', vendorCity: '', vendorPhone: '', vendorGstNo: '',
       companyName: '', companyEmail: '', companyAddress: '', companyPhone: '', companyGstNo: '',
       customerName: '', phoneNo: '', dateOfBirth: '', shippingAddress: '', contactPreference: '',
+      staffId: '', tempPassword: '',
     },
   });
 
@@ -376,6 +384,7 @@ const Register = () => {
       vendor: { title: 'Vendor Details', subtitle: 'Please provide the official credentials for your business entity to proceed with verification.' },
       manufacturer: { title: 'Manufacturer Details', subtitle: 'Provide official organizational information for record archival.' },
       customer: { title: 'Personal Details', subtitle: 'Please provide your basic contact details to set up your personal account.' },
+      staff:        { title: 'Staff Details',         subtitle: 'Finalize your institutional credentials to access the WPOMS secure ledger.' },
     };
     const { title, subtitle } = titles[role] || { title: 'Role Details', subtitle: '' };
 
@@ -515,6 +524,33 @@ const Register = () => {
                 </Field>
               </>
             )}
+
+             {role === 'staff' && (
+              <>
+                <InputRow>
+                  <Field label="Staff ID" error={errors.staffId?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('staffId')} type="text" className={styles.input} placeholder="Enter ID" />
+                      <span className={styles.inputIcon}><BadgeCheck size={18} /></span>
+                    </div>
+                  </Field>
+                  <Field label="Temporary Password" error={errors.tempPassword?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('tempPassword')} type="password" className={styles.input} placeholder="••••••••" />
+                      <span className={styles.inputIcon}><Lock size={18} /></span>
+                    </div>
+                  </Field>
+                </InputRow>
+                <div className={styles.infoBox}>
+                  <span className={styles.infoIcon}>ℹ</span>
+                  <p className={styles.infoText}>
+                    Staff accounts are provisioned by your Manufacturer. If you do not have your
+                    temporary credentials, please contact your regional administrator.
+                  </p>
+                </div>
+              </>
+            )}
+
 
 
           </div>
