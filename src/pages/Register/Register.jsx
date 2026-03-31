@@ -68,7 +68,10 @@ const vendorDetailsSchema = z.object({
   vendorEmail: z.string().email('Enter a valid business email'),
   vendorAddress: z.string().min(5, 'Address is required'),
   vendorCity: z.string().min(2, 'City is required'),
-  vendorPhone: z.string().min(10, 'Enter a valid phone number'),
+  vendorPhone: z.string().regex(
+    /^\+\d{1,3}\d{7,12}$/,
+    "Enter a valid international phone number (e.g., +919876543210)"
+  ),
   vendorGstNo: z.string().length(15, 'GST / Registration number must be 15 digits'),
 });
 
@@ -76,13 +79,21 @@ const manufacturerDetailsSchema = z.object({
   companyName: z.string().min(2, 'Company name is required'),
   companyEmail: z.string().email('Enter a valid company email'),
   companyAddress: z.string().min(5, 'Registered address is required'),
-  companyPhone: z.string().min(10, 'Enter a valid phone number').max(14, "Enter a valid phone number"),
+  companyPhone:  z
+  .string()
+  .regex(
+    /^\+\d{1,3}\d{7,12}$/,
+    "Enter a valid international phone number (e.g., +919876543210)"
+  ),
   companyGstNo: z.string().length(15, 'GST / Business Reg No. must be 15 digits'),
 });
 
 const customerDetailsSchema = z.object({
   customerName: z.string().min(2, 'Name is required'),
-  phoneNo: z.string().min(10, 'Enter a valid phone number').max(14, "Enter a valid phone number"),
+  phoneNo: z.string().regex(
+    /^\+\d{1,3}\d{7,12}$/,
+    "Enter a valid international phone number (e.g., +919876543210)"
+  ),
   dateOfBirth: z.string().min(1, 'Date of birth is required'),
   shippingAddress: z.string().min(5, 'Address is required'),
   contactPreference: z.string().min(1, 'Contact preference is required'),
