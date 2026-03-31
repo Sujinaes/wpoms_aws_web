@@ -14,7 +14,7 @@ export const authService = {
 
     if (!response.ok) {
       const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || 'Failed to register manufacturer');
+      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register manufacturer');
     }
 
     // Sometimes response might be just text or json
@@ -40,7 +40,7 @@ export const authService = {
     if (!response.ok) {
       const errorData = await response.json().catch((err) => console.log(err));
       console.log("error data " + errorData);
-      throw new Error(errorData?.message || 'Failed to register vendor');
+      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register vendor');
     }
 
 
@@ -66,7 +66,7 @@ export const authService = {
 
     if (!response.ok) {
       const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || 'Failed tqo register customer');
+      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed tqo register customer');
     }
 
     try {
