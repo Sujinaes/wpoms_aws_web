@@ -481,13 +481,13 @@ const Register = () => {
                 <InputRow>
                   <Field label="Full Name" error={errors.customerName?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('customerName')} type="text" className={styles.input} placeholder="e.g. Reshma M" />
+                      <input {...register('customerName')} type="text" className={styles.input} placeholder="e.g. John Doe" />
                       <span className={styles.inputIcon}><User size={18} /></span>
                     </div>
                   </Field>
                   <Field label="Phone No" error={errors.phoneNo?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('phoneNo')} type="tel" className={styles.input} placeholder="e.g. 9041342409" />
+                      <input {...register('phoneNo')} type="tel" className={styles.input} placeholder="e.g. 9987654678" />
                       <span className={styles.inputIcon}><Phone size={18} /></span>
                     </div>
                   </Field>
@@ -499,7 +499,7 @@ const Register = () => {
                       <span className={styles.inputIcon}><Calendar size={18} /></span>
                     </div>
                   </Field>
-                  <Field label="Contact Preference" error={errors.contactPreference?.message}>
+                  {/* <Field label="Contact Preference" error={errors.contactPreference?.message}>
                     <select {...register('contactPreference')} className={styles.input}>
                       <option value="">Select Priority</option>
                       <option value="Phone">Phone</option>
@@ -507,11 +507,17 @@ const Register = () => {
                       <option value="SMS">SMS</option>
                       <option value="Whatsapp">WhatsApp</option>
                     </select>
+                  </Field> */}
+                  <Field label="Alternate Phone No" error={errors.contactPreference?.message}>
+                    <div className={styles.inputWrapper}>
+                      <input {...register('contactPreference')} type="tel" className={styles.input} placeholder="e.g. 9987654678" />
+                      <span className={styles.inputIcon}><Phone size={18} /></span>
+                    </div>
                   </Field>
                 </InputRow>
                 <Field label="Shipping Address" error={errors.shippingAddress?.message}>
                   <div className={styles.inputWrapper}>
-                    <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. Harishma Bhavan, Kurumpaloor" />
+                    <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. 123 Main St, City, State 12345" />
                     <span className={styles.inputIcon}><MapPin size={18} /></span>
                   </div>
                 </Field>
