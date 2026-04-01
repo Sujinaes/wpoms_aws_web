@@ -35,18 +35,22 @@ const Login = () => {
         email: data.email,
         password: data.password
       });
-      
+
       const userRole = result?.role?.toLowerCase() || result?.user?.role?.toLowerCase() || 'manufacturer';
       console.log('Login attempt success:', result, 'Role:', userRole);
       toast.success('Login successful');
-      
-      // Store user ID in local storage based on common response formats
+
       if (result && result.id) {
         localStorage.setItem('userId', result.id);
       } else if (result && result.userId) {
         localStorage.setItem('userId', result.userId);
       } else if (result && result.user && result.user.id) {
         localStorage.setItem('userId', result.user.id);
+      }
+
+      // Store the user role inside localStorage
+      if (userRole) {
+        localStorage.setItem('role', userRole);
       }
 
       navigate(`/${userRole}/dashboard`);
