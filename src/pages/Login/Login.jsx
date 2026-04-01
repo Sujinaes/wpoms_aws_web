@@ -5,17 +5,16 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
+import { authService } from '../../services/authService';
 import styles from './Login.module.css';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email address'),
   password: z.string().min(1, 'Password is required').min(8, 'Password must be at least 8 characters'),
-  remember: z.boolean().optional(),
 });
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState('manufacturer');
   const navigate = useNavigate();
 
   const {
@@ -27,19 +26,32 @@ const Login = () => {
     defaultValues: {
       email: '',
       password: '',
-      remember: false,
     },
   });
 
   const onSubmit = async (data) => {
     try {
-      // TODO: connect to auth service
-      console.log('Login attempt:', data, 'Role:', role);
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      const result = await authService.loginUser({
+        email: data.email,
+        password: data.password
+      });
+      
+      const userRole = result?.role?.toLowerCase() || result?.user?.role?.toLowerCase() || 'manufacturer';
+      console.log('Login attempt success:', result, 'Role:', userRole);
       toast.success('Login successful');
-      navigate(`/${role}/dashboard`);
+      
+      // Store user ID in local storage based on common response formats
+      if (result && result.id) {
+        localStorage.setItem('userId', result.id);
+      } else if (result && result.userId) {
+        localStorage.setItem('userId', result.userId);
+      } else if (result && result.user && result.user.id) {
+        localStorage.setItem('userId', result.user.id);
+      }
+
+      navigate(`/${userRole}/dashboard`);
     } catch (error) {
-      toast.error('Login failed');
+      toast.error(error.message || 'Login failed');
     }
   };
 
@@ -171,41 +183,9 @@ const Login = () => {
               {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
             </div>
 
-            {/* Role Select */}
-            <div className={styles.fieldGroup}>
-              <label className={styles.label} htmlFor="role">
-                Portal Role
-              </label>
-              <div className={styles.inputWrapper}>
-                <select
-                  id="role"
-                  className={styles.input}
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  style={{ cursor: 'pointer', appearance: 'none', paddingRight: '2.5rem' }}
-                >
-                  <option value="manufacturer">Manufacturer</option>
-                  <option value="vendor">Vendor</option>
-                  <option value="customer">Customer</option>
-                </select>
-                <span className={styles.inputIcon} style={{ pointerEvents: 'none' }}>
-                  <span className="material-symbols-outlined" style={{ fontSize: '18px', color: '#94a3b8' }}>expand_more</span>
-                </span>
-              </div>
-            </div>
 
-            {/* Remember me */}
-            <div className={styles.checkboxRow}>
-              <input
-                id="remember"
-                type="checkbox"
-                className={styles.checkbox}
-                {...register('remember')}
-              />
-              <label htmlFor="remember" className={styles.checkboxLabel}>
-                Remember me
-              </label>
-            </div>
+
+
 
             <button type="submit" className={styles.submitBtn} disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign In to Dashboard'}
