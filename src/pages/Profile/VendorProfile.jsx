@@ -65,7 +65,7 @@ const VendorProfile = () => {
           {/* User Hero Section */}
           <section className="hero-section">
             <div className="avatar-wrapper">
-              <div className="user-avatar-large" style={{ background: '#475569' }}>
+              <div className="user-avatar-large gold-gradient">
                 <span className="material-symbols-outlined" style={{ fontSize: '4rem', color: '#fff' }}>account_circle</span>
               </div>
             </div>
@@ -73,7 +73,7 @@ const VendorProfile = () => {
             <div className="hero-info">
               <div className="hero-title-row">
                 <h2 className="user-name-large">Rahul Kumar</h2>
-                <span className="role-badge" style={{ color: '#44474d', backgroundColor: '#e2e8f0', borderColor: '#cbd5e1' }}>Vendor</span>
+                <span className="role-badge">Vendor</span>
               </div>
               <p className="user-email">vendor@alliance.com</p>
             </div>
@@ -115,7 +115,7 @@ const VendorProfile = () => {
                   <textarea className="form-input form-textarea" rows="3" defaultValue="78, Harmony Road, Industrial Area&#13;&#10;Mumbai, Maharashtra"></textarea>
                 </div>
 
-                <button className="btn-save" style={{ backgroundColor: '#475569', color: '#ffffff' }} type="button">
+                <button className="btn-save gold-gradient" type="button">
                   Save Changes
                 </button>
               </form>

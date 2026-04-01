@@ -61,7 +61,7 @@ const CustomerProfile = () => {
           {/* User Hero Section */}
           <section className="hero-section">
             <div className="avatar-wrapper">
-              <div className="user-avatar-large" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #a78bfa 100%)' }}>
+              <div className="user-avatar-large gold-gradient">
                 <span className="material-symbols-outlined" style={{ fontSize: '4rem', color: '#fff' }}>account_circle</span>
               </div>
             </div>
@@ -69,7 +69,7 @@ const CustomerProfile = () => {
             <div className="hero-info">
               <div className="hero-title-row">
                 <h2 className="user-name-large">Reshma M</h2>
-                <span className="role-badge" style={{ color: '#7c3aed', backgroundColor: 'rgba(124, 58, 237, 0.1)', borderColor: 'rgba(124, 58, 237, 0.2)' }}>Customer</span>
+                <span className="role-badge">Customer</span>
               </div>
               <p className="user-email">reshma.m@example.com</p>
             </div>
@@ -115,7 +115,7 @@ const CustomerProfile = () => {
                   <textarea className="form-input form-textarea" rows="3" defaultValue="42, Tech Park Avenue&#13;&#10;Bangalore, Karnataka"></textarea>
                 </div>
 
-                <button className="btn-save" style={{ background: 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)' }} type="button">
+                <button className="btn-save gold-gradient" type="button">
                   Save Changes
                 </button>
               </form>
