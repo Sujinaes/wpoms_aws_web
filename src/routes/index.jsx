@@ -6,10 +6,13 @@ import CustomerDashboard from "../pages/Dashboard/CustomerDashboard";
 import ManufacturerProfile from "../pages/Profile/ManufacturerProfile";
 import VendorProfile from "../pages/Profile/VendorProfile";
 import CustomerProfile from "../pages/Profile/CustomerProfile";
+import React from "react";
+import Home from "../pages/Home/Home";
 
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       {/* Manufacturer Dashboard */}
       <Route path="/manufacturer/dashboard" element={<ManufacturerDashboard />} />
