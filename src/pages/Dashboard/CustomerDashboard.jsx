@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 
-const CustomerDashboard = () => {
+const CustomerDashboardLayout = () => {
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
@@ -66,11 +66,7 @@ const CustomerDashboard = () => {
 
         {/* Page Content */}
         <div className="dashboard-content">
-          {/* Welcome Section */}
-          <section className="welcome-section">
-            <h2 className="welcome-title">Welcome to Customer Dashboard</h2>
-            <p className="welcome-subtitle">Welcome to your customer dashboard. Track your product purchases and warranty coverage all in one place.</p>
-          </section>
+          <Outlet />
         </div>
 
         {/* Background detail */}
@@ -80,4 +76,4 @@ const CustomerDashboard = () => {
   );
 };
 
-export default CustomerDashboard;
+export default CustomerDashboardLayout;
