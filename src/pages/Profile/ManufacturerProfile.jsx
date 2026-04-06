@@ -40,7 +40,7 @@ const ManufacturerProfile = () => {
 
         <div className="sidebar-footer">
           <Link className="nav-item nav-item-active" to="/manufacturer/profile">
-            <span className="material-symbols-outlined nav-icon" style={{fontVariationSettings: "'FILL' 1"}}>account_circle</span>
+            <span className="material-symbols-outlined nav-icon" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
             <span className="nav-text">User Profile</span>
           </Link>
         </div>
@@ -57,7 +57,7 @@ const ManufacturerProfile = () => {
       {/* Main Content Canvas */}
       <main className="profile-main">
         <div className="profile-container">
-          
+
           {/* User Hero Section */}
           <section className="hero-section">
             <div className="avatar-wrapper">
@@ -65,7 +65,7 @@ const ManufacturerProfile = () => {
                 <span className="material-symbols-outlined" style={{ fontSize: '4rem', color: '#fff' }}>account_circle</span>
               </div>
             </div>
-            
+
             <div className="hero-info">
               <div className="hero-title-row">
                 <h2 className="user-name-large">Manufacturer Enterprises</h2>
@@ -77,14 +77,14 @@ const ManufacturerProfile = () => {
 
           {/* Settings Grid */}
           <div className="settings-grid">
-            
+
             {/* Centered Column: Company Info */}
             <div className="settings-card">
               <div className="card-header">
                 <h3 className="card-title">Company Information</h3>
                 <span className="material-symbols-outlined card-icon">store</span>
               </div>
-              
+
               <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
                 <div className="form-group">
                   <label className="form-label">Company Name</label>

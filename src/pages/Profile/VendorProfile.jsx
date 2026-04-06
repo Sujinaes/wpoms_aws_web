@@ -44,7 +44,7 @@ const VendorProfile = () => {
 
         <div className="sidebar-footer">
           <Link className="nav-item nav-item-active" to="/vendor/profile">
-            <span className="material-symbols-outlined nav-icon" style={{fontVariationSettings: "'FILL' 1"}}>account_circle</span>
+            <span className="material-symbols-outlined nav-icon" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
             <span className="nav-text">User Profile</span>
           </Link>
         </div>
@@ -61,7 +61,7 @@ const VendorProfile = () => {
       {/* Main Content Canvas */}
       <main className="profile-main">
         <div className="profile-container">
-          
+
           {/* User Hero Section */}
           <section className="hero-section">
             <div className="avatar-wrapper">
@@ -69,7 +69,7 @@ const VendorProfile = () => {
                 <span className="material-symbols-outlined" style={{ fontSize: '4rem', color: '#fff' }}>account_circle</span>
               </div>
             </div>
-            
+
             <div className="hero-info">
               <div className="hero-title-row">
                 <h2 className="user-name-large">Rahul Kumar</h2>
@@ -81,14 +81,14 @@ const VendorProfile = () => {
 
           {/* Settings Grid */}
           <div className="settings-grid">
-            
+
             {/* Centered Column: Vendor Info */}
             <div className="settings-card">
               <div className="card-header">
                 <h3 className="card-title">Vendor Information</h3>
                 <span className="material-symbols-outlined card-icon">local_shipping</span>
               </div>
-              
+
               <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
                 <div className="form-group">
                   <label className="form-label">Vendor Name</label>

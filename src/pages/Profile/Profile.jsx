@@ -37,7 +37,7 @@ const Profile = () => {
 
         <div className="sidebar-footer">
           <Link className="nav-item nav-item-active" to="/profile">
-            <span className="material-symbols-outlined nav-icon" style={{fontVariationSettings: "'FILL' 1"}}>account_circle</span>
+            <span className="material-symbols-outlined nav-icon" style={{ fontVariationSettings: "'FILL' 1" }}>account_circle</span>
             <span className="nav-text">User Profile</span>
           </Link>
         </div>
@@ -65,7 +65,7 @@ const Profile = () => {
       {/* Main Content Canvas */}
       <main className="profile-main">
         <div className="profile-container">
-          
+
           {/* User Hero Section */}
           <section className="hero-section">
             <div className="avatar-wrapper">
@@ -76,7 +76,7 @@ const Profile = () => {
                 <span className="material-symbols-outlined icon-small">edit</span>
               </button>
             </div>
-            
+
             <div className="hero-info">
               <div className="hero-title-row">
                 <h2 className="user-name-large">Alexander Mercer</h2>
@@ -85,7 +85,7 @@ const Profile = () => {
                 </span>
               </div>
               <p className="user-email">a.mercer@wpoms-enterprise.com</p>
-              
+
               <button className="btn-link">
                 Edit Avatar
                 <span className="material-symbols-outlined icon-small">arrow_forward</span>
@@ -95,14 +95,14 @@ const Profile = () => {
 
           {/* Settings Grid */}
           <div className="settings-grid">
-            
+
             {/* Left Column: Personal Info */}
             <div className="settings-card">
               <div className="card-header">
                 <h3 className="card-title">Personal Information</h3>
                 <span className="material-symbols-outlined card-icon">person</span>
               </div>
-              
+
               <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
                 <div className="form-row">
                   <div className="form-group">
