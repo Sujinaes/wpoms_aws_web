@@ -10,22 +10,34 @@ import VendorProfile from "../pages/Profile/VendorProfile";
 import CustomerProfile from "../pages/Profile/CustomerProfile";
 import Home from "../pages/Home/Home";
 
+import ManufacturerDashboardLayout from "../pages/Dashboard/ManufacturerDashboard";
+import VendorDashboardLayout from "../pages/Dashboard/VendorDashboard";
+import CustomerDashboardLayout from "../pages/Dashboard/CustomerDashboard";
+import ManufacturerOverview from "../pages/Overview/ManufacturerOverview";
+import VendorOverview from "../pages/Overview/VendorOverview";
+import CustomerOverview from "../pages/Overview/CustomerOverview";
+
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      {/* Manufacturer Dashboard */}
-      <Route path="/manufacturer/dashboard" element={<ManufacturerDashboard />} />
-      {/* Vendor Dashboard */}
-      <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-      {/* Customer Dashboard */}
-      <Route path="/customer/dashboard" element={<CustomerDashboard />} />
-      {/* Profiles */}
-      <Route path="/manufacturer/profile" element={<ManufacturerProfile />} />
-      <Route path="/vendor/profile" element={<VendorProfile />} />
-      <Route path="/customer/profile" element={<CustomerProfile />} />
+
+      <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
+        <Route index element={<ManufacturerOverview />} />
+        <Route path="profile" element={<ManufacturerProfile />} />
+      </Route>
+
+      <Route path="/vendor" element={<VendorDashboardLayout />}>
+        <Route index element={<VendorOverview />} />
+        <Route path="profile" element={<VendorProfile />} />
+      </Route>
+
+      <Route path="/customer" element={<CustomerDashboardLayout />}>
+        <Route index element={<CustomerOverview />} />
+        <Route path="profile" element={<CustomerProfile />} />
+      </Route>
     </Routes>
   );
 };

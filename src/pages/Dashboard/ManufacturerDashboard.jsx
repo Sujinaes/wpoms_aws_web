@@ -1,18 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
+import { LogoWithoutSubtitle as Logo } from '../../components/logo/Logo';
 
-const ManufacturerDashboard = () => {
+const ManufacturerDashboardLayout = () => {
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
       <aside className="dashboard-sidebar">
         <div className="sidebar-header">
-          <div className="sidebar-logo">
-            <span className="material-symbols-outlined logo-icon" data-icon="verified_user">verified_user</span>
-            WPOMS
-          </div>
-          <p className="sidebar-subtitle">Manufacturer Portal</p>
+          <Logo />
         </div>
         <nav className="sidebar-nav">
           <Link className="nav-item nav-item-active" to="/manufacturer/dashboard">
@@ -66,11 +63,7 @@ const ManufacturerDashboard = () => {
 
         {/* Page Content */}
         <div className="dashboard-content">
-          {/* Welcome Section */}
-          <section className="welcome-section">
-            <h2 className="welcome-title">Welcome to Manufacturer Dashboard</h2>
-            <p className="welcome-subtitle">Your enterprise overview for today. All purchase orders and active warranties are synced and up to date.</p>
-          </section>
+          <Outlet />
         </div>
 
         {/* Background detail */}
@@ -80,4 +73,4 @@ const ManufacturerDashboard = () => {
   );
 };
 
-export default ManufacturerDashboard;
+export default ManufacturerDashboardLayout;

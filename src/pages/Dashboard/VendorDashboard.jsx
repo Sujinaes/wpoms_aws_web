@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 
-const VendorDashboard = () => {
+const VendorDashboardLayout = () => {
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
@@ -70,11 +70,7 @@ const VendorDashboard = () => {
 
         {/* Page Content */}
         <div className="dashboard-content">
-          {/* Welcome Section */}
-          <section className="welcome-section">
-            <h2 className="welcome-title">Welcome to Vendor Dashboard</h2>
-            <p className="welcome-subtitle">Here's your vendor activity summary. All active purchase orders and shipment statuses are up to date.</p>
-          </section>
+          <Outlet />
         </div>
 
         {/* Background detail */}
@@ -84,4 +80,4 @@ const VendorDashboard = () => {
   );
 };
 
-export default VendorDashboard;
+export default VendorDashboardLayout;

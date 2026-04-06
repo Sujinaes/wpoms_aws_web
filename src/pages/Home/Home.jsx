@@ -33,6 +33,17 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // when window width increase, then make the isOpen = false
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <nav
       className={`${styles.nav_navbar} ${scrolled ? styles.nav_scrolled : ""}`}
@@ -84,7 +95,7 @@ const Navbar = () => {
           ))}
           <hr className={styles.nav_divider} />
           <button className={styles.nav_mobileSignInBtn}>Sign In</button>
-          <button className={`${styles.nav_mobileRegisterBtn} gold-gradient`}>
+          <button className={`${styles.nav_mobileSignInBtn} ${styles.color_gold_gradient}`}>
             Register
           </button>
         </div>
@@ -117,9 +128,11 @@ const Hero = () => {
             product registration to claim approval, transparently and efficiently.
           </p>
           <div className={`${styles.hero_actions} animate-fade-in-up`}>
-            <button className={`${styles.hero_primaryBtn} gold-gradient`}>
-              Get Started <ChevronRight size={18} />
-            </button>
+            <Link to="/register">
+              <button className={`${styles.hero_primaryBtn} gold-gradient`}>
+                Get Started <ChevronRight size={18} />
+              </button>
+            </Link>
           </div>
         </div>
       </div>
