@@ -38,7 +38,6 @@ const Login = () => {
 
       const userRole = result?.role?.toLowerCase() || result?.user?.role?.toLowerCase() || 'manufacturer';
       console.log('Login attempt success:', result, 'Role:', userRole);
-      toast.success('Login successful');
 
       if (result && result.id) {
         localStorage.setItem('userId', result.id);
@@ -53,7 +52,7 @@ const Login = () => {
         localStorage.setItem('role', userRole);
       }
 
-      navigate(`/${userRole}/dashboard`);
+      navigate(`/${userRole}`);
     } catch (error) {
       toast.error(error.message || 'Login failed');
     }

@@ -4,33 +4,69 @@ import './Profile.css';
 import { profileService } from '../../services/profileService';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const vendorSchema = z.object({
+  vendorName: z.string().min(1, 'Vendor Name is required'),
+  vendorEmail: z.string().email('Invalid email address'),
+  phone: z.string().min(10, 'Phone must be at least 10 characters'),
+  gstNumber: z.string().min(1, 'GST Number is required'),
+  address: z.string().optional().or(z.literal('')),
+});
 
 const VendorProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-          const data = await profileService.getVendorProfile(userId);
-          setProfileData(data);
-        } else {
-          console.log("No userId found");
-          toast.error("You are not logged in");
-          navigate("/login");
-        }
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(vendorSchema),
+  });
 
-      } catch (err) {
-        console.error("Error fetching vendor profile:", err);
-      } finally {
-        setLoading(false);
+  const fetchProfile = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        const data = await profileService.getVendorProfile(userId);
+        setProfileData(data);
+        reset(data);
+      } else {
+        console.log("No userId found");
+        toast.error("You are not logged in");
+        navigate("/login");
       }
-    };
+    } catch (err) {
+      console.error("Error fetching vendor profile:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchProfile();
   }, []);
+
+  const handleSave = async (data) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      await profileService.updateVendor(userId, data);
+      toast.success("Profile updated successfully");
+      setIsEditing(false);
+      fetchProfile();
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Failed to update profile");
+    }
+  };
+
 
   if (loading) {
     return <div className="profile-wrapper"><div className="profile-main"><div className="profile-container" style={{ padding: '2rem' }}>Loading profile...</div></div></div>;
@@ -73,39 +109,57 @@ const VendorProfile = () => {
               <span className="material-symbols-outlined card-icon">local_shipping</span>
             </div>
 
-            <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="settings-form" onSubmit={handleSubmit(handleSave)}>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Vendor Name</label>
-                  <input className="form-input" type="text" defaultValue={profileData?.vendorName || "Rahul Kumar"} />
+                  <input className={`form-input ${errors.vendorName ? 'error' : ''}`} {...register("vendorName")} type="text" disabled={!isEditing} />
+                  {errors.vendorName && <span className="error-text">{errors.vendorName.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">Vendor Email</label>
-                  <input className="form-input" type="email" defaultValue={profileData?.vendorEmail || "vendor@alliance.com"} />
+                  <input className={`form-input ${errors.vendorEmail ? 'error' : ''}`} {...register("vendorEmail")} type="email" disabled={!isEditing} />
+                  {errors.vendorEmail && <span className="error-text">{errors.vendorEmail.message}</span>}
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Phone Number</label>
-                  <input className="form-input" type="tel" defaultValue={profileData?.phone || "+91 85934 93481"} />
+                  <input className={`form-input ${errors.phone ? 'error' : ''}`} {...register("phone")} type="tel" disabled={!isEditing} />
+                  {errors.phone && <span className="error-text">{errors.phone.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">GST Number</label>
-                  <input className="form-input" type="text" defaultValue={profileData?.gstNumber || "GSTIN987654321"} />
+                  <input className={`form-input ${errors.gstNumber ? 'error' : ''}`} {...register("gstNumber")} type="text" disabled={!isEditing} />
+                  {errors.gstNumber && <span className="error-text">{errors.gstNumber.message}</span>}
                 </div>
               </div>
 
               <div className="form-group">
                 <label className="form-label">Address</label>
-                <textarea className="form-input form-textarea" rows="3" defaultValue={profileData?.address || "78, Harmony Road, Industrial Area\nMumbai, Maharashtra"}></textarea>
+                <textarea className={`form-input form-textarea ${errors.address ? 'error' : ''}`} {...register("address")} rows="3" disabled={!isEditing}></textarea>
+                {errors.address && <span className="error-text">{errors.address.message}</span>}
               </div>
 
-              <button className="btn-save gold-gradient" type="button">
-                Save Changes
-              </button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                {!isEditing ? (
+                  <button className="btn-save gold-gradient" type="button" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </button>
+                ) : (
+                  <>
+                    <button className="btn-save gold-gradient" style={{ background: '#666', flex: 1 }} type="button" onClick={() => { setIsEditing(false); reset(profileData); }}>
+                      Cancel
+                    </button>
+                    <button className="btn-save gold-gradient" type="submit" style={{ flex: 1 }}>
+                      Save Changes
+                    </button>
+                  </>
+                )}
+              </div>
             </form>
           </div>
 
