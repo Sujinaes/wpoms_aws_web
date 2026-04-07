@@ -2,28 +2,66 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
 import { profileService } from '../../services/profileService';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const customerSchema = z.object({
+  customerName: z.string().min(1, 'Name is required'),
+  customerEmail: z.string().email('Invalid email address'),
+  phoneNo: z.string().min(10, 'Phone number must be at least 10 digits'),
+  dateOfBirth: z.string().optional().or(z.literal('')),
+  contactPreference: z.string().optional().or(z.literal('')),
+  shippingAddress: z.string().optional().or(z.literal('')),
+});
 
 const CustomerProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(customerSchema),
+  });
+
+  const fetchProfile = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        const data = await profileService.getCustomerProfile(userId);
+        setProfileData(data);
+        reset(data);
+      }
+    } catch (err) {
+      console.error("Error fetching customer profile:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const userId = localStorage.getItem('userId');
-        console.log(userId)
-        if (userId) {
-          const data = await profileService.getCustomerProfile(userId);
-          setProfileData(data);
-        }
-      } catch (err) {
-        console.error("Error fetching customer profile:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProfile();
   }, []);
+
+  const handleSave = async (data) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      await profileService.updateCustomer(userId, data);
+      toast.success("Profile updated successfully");
+      setIsEditing(false);
+      fetchProfile();
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Failed to update profile");
+    }
+  };
+
 
   if (loading) {
     return <div className="profile-wrapper"><div className="profile-main"><div className="profile-container" style={{ padding: '2rem' }}>Loading profile...</div></div></div>;
@@ -71,44 +109,63 @@ const CustomerProfile = () => {
               <span className="material-symbols-outlined card-icon">person</span>
             </div>
 
-            <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="settings-form" onSubmit={handleSubmit(handleSave)}>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Customer Name</label>
-                  <input className="form-input" type="text" defaultValue={profileData?.customerName || "Reshma M"} />
+                  <input className={`form-input ${errors.customerName ? 'error' : ''}`} {...register("customerName")} type="text" disabled={!isEditing} />
+                  {errors.customerName && <span className="error-text">{errors.customerName.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">Customer Email</label>
-                  <input className="form-input" type="email" defaultValue={profileData?.customerEmail || "reshma.m@example.com"} />
+                  <input className={`form-input ${errors.customerEmail ? 'error' : ''}`} {...register("customerEmail")} type="email" disabled={!isEditing} />
+                  {errors.customerEmail && <span className="error-text">{errors.customerEmail.message}</span>}
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Phone Number</label>
-                  <input className="form-input" type="tel" defaultValue={profileData?.phoneNo || "+91 98765 43210"} />
+                  <input className={`form-input ${errors.phoneNo ? 'error' : ''}`} {...register("phoneNo")} type="tel" disabled={!isEditing} />
+                  {errors.phoneNo && <span className="error-text">{errors.phoneNo.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">Date of Birth</label>
-                  <input className="form-input" type="date" defaultValue={profileData?.dateOfBirth || "1995-05-15"} />
+                  <input className={`form-input ${errors.dateOfBirth ? 'error' : ''}`} {...register("dateOfBirth")} type="date" disabled={!isEditing} />
+                  {errors.dateOfBirth && <span className="error-text">{errors.dateOfBirth.message}</span>}
                 </div>
               </div>
 
               <div className="form-group">
                 <label className="form-label">Contact Preference</label>
-                <input className="form-input" type="text" defaultValue={profileData?.contactPreference || "email"} />
+                <input className={`form-input ${errors.contactPreference ? 'error' : ''}`} {...register("contactPreference")} type="text" disabled={!isEditing} />
+                {errors.contactPreference && <span className="error-text">{errors.contactPreference.message}</span>}
               </div>
 
               <div className="form-group">
                 <label className="form-label">Shipping Address</label>
-                <textarea className="form-input form-textarea" rows="3" defaultValue={profileData?.shippingAddress || "42, Tech Park Avenue\nBangalore, Karnataka"}></textarea>
+                <textarea className={`form-input form-textarea ${errors.shippingAddress ? 'error' : ''}`} {...register("shippingAddress")} rows="3" disabled={!isEditing}></textarea>
+                {errors.shippingAddress && <span className="error-text">{errors.shippingAddress.message}</span>}
               </div>
 
-              <button className="btn-save gold-gradient" type="button">
-                Save Changes
-              </button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                {!isEditing ? (
+                  <button className="btn-save gold-gradient" type="button" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </button>
+                ) : (
+                  <>
+                    <button className="btn-save gold-gradient" style={{ background: '#666', flex: 1 }} type="button" onClick={() => { setIsEditing(false); reset(profileData); }}>
+                      Cancel
+                    </button>
+                    <button className="btn-save gold-gradient" type="submit" style={{ flex: 1 }}>
+                      Save Changes
+                    </button>
+                  </>
+                )}
+              </div>
             </form>
           </div>
 

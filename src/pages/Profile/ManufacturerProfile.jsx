@@ -2,27 +2,63 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Profile.css';
 import { profileService } from '../../services/profileService';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const manufacturerSchema = z.object({
+  companyName: z.string().min(1, 'Company Name is required'),
+  companyEmail: z.string().email('Invalid email address'),
+  phone: z.string().min(10, 'Phone must be at least 10 characters'),
+  gstNumber: z.string().min(1, 'GST Number is required'),
+});
 
 const ManufacturerProfile = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(manufacturerSchema),
+  });
+
+  const fetchProfile = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      if (userId) {
+        const data = await profileService.getManufacturerProfile(userId);
+        setProfileData(data);
+        reset(data);
+      }
+    } catch (err) {
+      console.error("Error fetching manufacturer profile:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const userId = localStorage.getItem('userId');
-        if (userId) {
-          const data = await profileService.getManufacturerProfile(userId);
-          setProfileData(data);
-        }
-      } catch (err) {
-        console.error("Error fetching manufacturer profile:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchProfile();
   }, []);
+
+  const handleSave = async (data) => {
+    try {
+      const userId = localStorage.getItem('userId');
+      await profileService.updateManufacturer(userId, data);
+      toast.success("Profile updated successfully");
+      setIsEditing(false);
+      fetchProfile();
+    } catch (err) {
+      console.error(err);
+      toast.error(err.message || "Failed to update profile");
+    }
+  };
 
   if (loading) {
     return <div className="profile-wrapper"><div className="profile-main"><div className="profile-container" style={{ padding: '2rem' }}>Loading profile...</div></div></div>;
@@ -68,34 +104,51 @@ const ManufacturerProfile = () => {
               <span className="material-symbols-outlined card-icon">store</span>
             </div>
 
-            <form className="settings-form" onSubmit={(e) => e.preventDefault()}>
+            <form className="settings-form" onSubmit={handleSubmit(handleSave)}>
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Company Name</label>
-                  <input className="form-input" type="text" defaultValue={profileData?.companyName || "Manufacturer Enterprises"} />
+                  <input className={`form-input ${errors.companyName ? 'error' : ''}`} {...register("companyName")} type="text" disabled={!isEditing} />
+                  {errors.companyName && <span className="error-text">{errors.companyName.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">Company Email</label>
-                  <input className="form-input" type="email" defaultValue={profileData?.companyEmail || "contact@manufacturer.com"} />
+                  <input className={`form-input ${errors.companyEmail ? 'error' : ''}`} {...register("companyEmail")} type="email" disabled={!isEditing} />
+                  {errors.companyEmail && <span className="error-text">{errors.companyEmail.message}</span>}
                 </div>
               </div>
 
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Company Phone</label>
-                  <input className="form-input" type="tel" defaultValue={profileData?.phone || "+1 (555) 012-3456"} />
+                  <input className={`form-input ${errors.phone ? 'error' : ''}`} {...register("phone")} type="tel" disabled={!isEditing} />
+                  {errors.phone && <span className="error-text">{errors.phone.message}</span>}
                 </div>
 
                 <div className="form-group">
                   <label className="form-label">GST Number</label>
-                  <input className="form-input" type="text" defaultValue={profileData?.gstNumber || "GSTIN123456789"} />
+                  <input className={`form-input ${errors.gstNumber ? 'error' : ''}`} {...register("gstNumber")} type="text" disabled={!isEditing} />
+                  {errors.gstNumber && <span className="error-text">{errors.gstNumber.message}</span>}
                 </div>
               </div>
 
-              <button className="btn-save gold-gradient" type="button">
-                Save Changes
-              </button>
+              <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+                {!isEditing ? (
+                  <button className="btn-save gold-gradient" type="button" onClick={() => setIsEditing(true)}>
+                    Edit
+                  </button>
+                ) : (
+                  <>
+                    <button className="btn-save gold-gradient" style={{ background: '#666', flex: 1 }} type="button" onClick={() => { setIsEditing(false); reset(profileData); }}>
+                      Cancel
+                    </button>
+                    <button className="btn-save gold-gradient" type="submit" style={{ flex: 1 }}>
+                      Save Changes
+                    </button>
+                  </>
+                )}
+              </div>
             </form>
           </div>
         </div>
