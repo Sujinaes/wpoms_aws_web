@@ -2,6 +2,7 @@ const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
 
 export const profileService = {
   updateCustomer: async (id, data) => {
+    console.log(data,id);
     const response = await fetch(`${API_URL}/api/customer/update-customer?id=${id}`, {
       method: 'PUT',
       headers: {

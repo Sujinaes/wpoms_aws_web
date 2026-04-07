@@ -36,7 +36,7 @@ const ROLES = [
   { id: 'manufacturer', icon: <Factory size={28} />, title: 'Manufacturer', desc: 'Production & warranty management' },
   { id: 'vendor', icon: <ShoppingCart size={28} />, title: 'Vendor', desc: 'Sales & purchase orders' },
   { id: 'customer', icon: <User size={28} />, title: 'Customer', desc: 'Consumer & direct orders' },
-  { id: 'staff',        icon: <User size={28} />,         title: 'Staff',        desc: 'Internal team, limited access' },
+  { id: 'staff', icon: <User size={28} />, title: 'Staff', desc: 'Internal team, limited access' },
 ];
 
 // ── Zod Schemas ───────────────────────────────────────────────────────────────
@@ -79,12 +79,12 @@ const manufacturerDetailsSchema = z.object({
   companyName: z.string().min(2, 'Company name is required'),
   companyEmail: z.string().email('Enter a valid company email'),
   companyAddress: z.string().min(5, 'Registered address is required'),
-  companyPhone:  z
-  .string()
-  .regex(
-    /^\+\d{1,3}\d{7,12}$/,
-    "Enter a valid international phone number (e.g., +919876543210)"
-  ),
+  companyPhone: z
+    .string()
+    .regex(
+      /^\+\d{1,3}\d{7,12}$/,
+      "Enter a valid international phone number (e.g., +919876543210)"
+    ),
   companyGstNo: z.string().length(15, 'GST / Business Reg No. must be 15 digits'),
 });
 
@@ -100,7 +100,7 @@ const customerDetailsSchema = z.object({
 });
 
 const staffDetailsSchema = z.object({
-  staffId:      z.string().min(2, 'Staff ID is required'),
+  staffId: z.string().min(2, 'Staff ID is required'),
   tempPassword: z.string().min(6, 'Temporary password is required'),
 });
 
@@ -111,7 +111,7 @@ const getRoleDetailsSchema = (role) => {
     case 'vendor': return vendorDetailsSchema;
     case 'manufacturer': return manufacturerDetailsSchema;
     case 'customer': return customerDetailsSchema;
-    case 'staff':        return staffDetailsSchema;
+    case 'staff': return staffDetailsSchema;
     default: return z.object({});
   }
 };
@@ -206,8 +206,8 @@ const Register = () => {
         await authService.registerCustomer(payload);
       }
 
-      toast.success('Account created successfully! Welcome aboard.');
-      navigate('/dashboard');
+
+      navigate('/login');
     } catch (error) {
       toast.error(error.message || 'Registration failed. Please try again.');
     }
@@ -377,7 +377,7 @@ const Register = () => {
       vendor: { title: 'Vendor Details', subtitle: 'Please provide the official credentials for your business entity to proceed with verification.' },
       manufacturer: { title: 'Manufacturer Details', subtitle: 'Provide official organizational information for record archival.' },
       customer: { title: 'Personal Details', subtitle: 'Please provide your basic contact details to set up your personal account.' },
-      staff:        { title: 'Staff Details',         subtitle: 'Finalize your institutional credentials to access the WPOMS secure ledger.' },
+      staff: { title: 'Staff Details', subtitle: 'Finalize your institutional credentials to access the WPOMS secure ledger.' },
     };
     const { title, subtitle } = titles[role] || { title: 'Role Details', subtitle: '' };
 
@@ -524,7 +524,7 @@ const Register = () => {
               </>
             )}
 
-             {role === 'staff' && (
+            {role === 'staff' && (
               <>
                 <InputRow>
                   <Field label="Staff ID" error={errors.staffId?.message}>

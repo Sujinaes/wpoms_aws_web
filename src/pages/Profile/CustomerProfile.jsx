@@ -9,7 +9,6 @@ import * as z from 'zod';
 
 const customerSchema = z.object({
   customerName: z.string().min(1, 'Name is required'),
-  customerEmail: z.string().email('Invalid email address'),
   phoneNo: z.string().min(10, 'Phone number must be at least 10 digits'),
   dateOfBirth: z.string().optional().or(z.literal('')),
   contactPreference: z.string().optional().or(z.literal('')),
@@ -117,10 +116,8 @@ const CustomerProfile = () => {
                   {errors.customerName && <span className="error-text">{errors.customerName.message}</span>}
                 </div>
 
-                <div className="form-group">
-                  <label className="form-label">Customer Email</label>
-                  <input className={`form-input ${errors.customerEmail ? 'error' : ''}`} {...register("customerEmail")} type="email" disabled={!isEditing} />
-                  {errors.customerEmail && <span className="error-text">{errors.customerEmail.message}</span>}
+                <div className="form-group" style={{ visibility: 'hidden' }}>
+                  {/* Empty space holder to maintain grid consistency, or you can adjust row styling */}
                 </div>
               </div>
 

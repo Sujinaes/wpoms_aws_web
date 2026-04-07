@@ -10,8 +10,9 @@ import * as z from 'zod';
 const manufacturerSchema = z.object({
   companyName: z.string().min(1, 'Company Name is required'),
   companyEmail: z.string().email('Invalid email address'),
-  phone: z.string().min(10, 'Phone must be at least 10 characters'),
+  companyPhone: z.string().min(10, 'Phone must be at least 10 characters'),
   gstNumber: z.string().min(1, 'GST Number is required'),
+  companyAddress: z.string().optional().or(z.literal('')),
 });
 
 const ManufacturerProfile = () => {
@@ -33,6 +34,8 @@ const ManufacturerProfile = () => {
       const userId = localStorage.getItem('userId');
       if (userId) {
         const data = await profileService.getManufacturerProfile(userId);
+        data.companyPhone = data.phone;
+        data.companyAddress = data.address;
         setProfileData(data);
         reset(data);
       }
@@ -122,8 +125,8 @@ const ManufacturerProfile = () => {
               <div className="form-row">
                 <div className="form-group">
                   <label className="form-label">Company Phone</label>
-                  <input className={`form-input ${errors.phone ? 'error' : ''}`} {...register("phone")} type="tel" disabled={!isEditing} />
-                  {errors.phone && <span className="error-text">{errors.phone.message}</span>}
+                  <input className={`form-input ${errors.companyPhone ? 'error' : ''}`} {...register("companyPhone")} type="tel" disabled={!isEditing} />
+                  {errors.companyPhone && <span className="error-text">{errors.companyPhone.message}</span>}
                 </div>
 
                 <div className="form-group">
@@ -131,6 +134,12 @@ const ManufacturerProfile = () => {
                   <input className={`form-input ${errors.gstNumber ? 'error' : ''}`} {...register("gstNumber")} type="text" disabled={!isEditing} />
                   {errors.gstNumber && <span className="error-text">{errors.gstNumber.message}</span>}
                 </div>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Company Address</label>
+                <textarea className={`form-input form-textarea ${errors.companyAddress ? 'error' : ''}`} {...register("companyAddress")} rows="3" disabled={!isEditing}></textarea>
+                {errors.companyAddress && <span className="error-text">{errors.companyAddress.message}</span>}
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
