@@ -94,10 +94,14 @@ const Navbar = () => {
             </a>
           ))}
           <hr className={styles.nav_divider} />
-          <button className={styles.nav_mobileSignInBtn}>Sign In</button>
-          <button className={`${styles.nav_mobileSignInBtn} ${styles.color_gold_gradient}`}>
-            Register
-          </button>
+          <Link to="/login">
+             <button className={styles.nav_mobileSignInBtn}>Sign In</button>
+          </Link>
+          <Link to="/register">
+             <button className={`${styles.nav_mobileSignInBtn} ${styles.color_gold_gradient}`}>
+              Register
+            </button>
+          </Link>
         </div>
       )}
     </nav>
@@ -386,9 +390,11 @@ const CTA = () => {
               a clear, accountable warranty process — from registration to resolution.
             </p>
             <div className={styles.cta_actions}>
-              <button className={styles.cta_primaryBtn}>
+              <Link to="/register">
+              <button className={`${styles.cta_primaryBtn}`}>
                 Register Now <ArrowRight size={20} />
               </button>
+            </Link>
             </div>
           </div>
         </div>
@@ -408,20 +414,6 @@ const Footer = () => {
             <p className={styles.foot_tagline}>
               Warranty Management for Manufacturers, Vendors & Customers.
             </p>
-            <div className={styles.foot_trustBadges}>
-              <div className={styles.foot_badge}>
-                <Shield size={16} />
-                <span>Secure Claims</span>
-              </div>
-              <div className={styles.foot_badge}>
-                <Globe size={16} />
-                <span>Multi-Role Access</span>
-              </div>
-              <div className={styles.foot_badge}>
-                <Lock size={16} />
-                <span>256-bit AES</span>
-              </div>
-            </div>
           </div>
           <div className={styles.foot_linksGrid}>
             <div>
@@ -434,27 +426,7 @@ const Footer = () => {
                   <a href="#services">Services</a>
                 </li>
                 <li>
-                  <a href="#how-it-works">How It Works</a>
-                </li>
-                <li>
                   <a href="#faq">FAQ</a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className={styles.foot_linkTitle}>Legal</h4>
-              <ul className={styles.foot_linkList}>
-                <li>
-                  <a href="#">Privacy Policy</a>
-                </li>
-                <li>
-                  <a href="#">Terms of Service</a>
-                </li>
-                <li>
-                  <a href="#">Compliance</a>
-                </li>
-                <li>
-                  <a href="#">Security</a>
                 </li>
               </ul>
             </div>
@@ -462,11 +434,6 @@ const Footer = () => {
         </div>
         <div className={styles.foot_bottom}>
           <p className={styles.foot_copyright}>© 2026 WPOMS. All rights reserved.</p>
-          <div className={styles.foot_socials}>
-            <a href="#">LinkedIn</a>
-            <a href="#">Twitter</a>
-            <a href="#">Contact</a>
-          </div>
         </div>
       </div>
     </footer>
