@@ -16,6 +16,7 @@ import CustomerDashboardLayout from "../pages/Dashboard/CustomerDashboard";
 import ManufacturerOverview from "../pages/Overview/ManufacturerOverview";
 import VendorOverview from "../pages/Overview/VendorOverview";
 import CustomerOverview from "../pages/Overview/CustomerOverview";
+import Staffs from "../pages/Staffs/Staffs";
 
 const AppRoutes = () => {
   return (
@@ -27,11 +28,13 @@ const AppRoutes = () => {
       <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
         <Route index element={<ManufacturerOverview />} />
         <Route path="profile" element={<ManufacturerProfile />} />
+        <Route path="staffs" element={<Staffs type="manufacturer"/>} />
       </Route>
 
       <Route path="/vendor" element={<VendorDashboardLayout />}>
         <Route index element={<VendorOverview />} />
         <Route path="profile" element={<VendorProfile />} />
+        <Route path="staffs" element={<Staffs type="vendor"/>} />
       </Route>
 
       <Route path="/customer" element={<CustomerDashboardLayout />}>
