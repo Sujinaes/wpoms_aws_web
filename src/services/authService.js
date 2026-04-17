@@ -26,6 +26,7 @@ export const authService = {
   },
 
   registerVendor: async (data) => {
+
     console.log("vendor details : ");
     console.log(data);
 
@@ -66,7 +67,7 @@ export const authService = {
 
     if (!response.ok) {
       const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed tqo register customer');
+      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register customer');
     }
 
     try {
@@ -74,7 +75,38 @@ export const authService = {
     } catch {
       return { success: true }; // Fallback for 200 OK without JSON body
     }
+  } ,
+
+  registerStaff: async(type,data)=>{
+
+    const STAFF_API = {
+    vendor: `${API_URL}`,
+    manufacturer: `${API_URL}`
+    };
+
+      console.log(`${type} staff details:`, data);
+
+    const response = await fetch(STAFF_API[type], {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+     if (!response.ok) {
+      const errorData = await response.json().catch((err) => console.log(err));
+      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register staff');
+    }
+
+    try {
+      return await response.json();
+    } catch {
+      return { success: true }; 
+    }
   },
+
+
 
   loginUser: async (data, role) => {
   console.log(`login attempt for ${role}:`, data);

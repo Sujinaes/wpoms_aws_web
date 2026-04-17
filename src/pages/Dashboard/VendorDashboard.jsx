@@ -15,9 +15,13 @@ const VendorDashboardLayout = () => {
           <p className="sidebar-subtitle">Vendor Portal</p>
         </div>
         <nav className="sidebar-nav">
-          <Link className="nav-item nav-item-active" to="/vendor/dashboard">
+          <Link className="nav-item nav-item-active" to="/vendor">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
+          </Link>
+          <Link className="nav-item" to="/vendor/staffs">
+            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
+            <span className="nav-text">Staffs</span>
           </Link>
           <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="receipt_long">receipt_long</span>
