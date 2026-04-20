@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import ManufacturerDashboard from "../pages/Dashboard/ManufacturerDashboard";
@@ -24,19 +25,21 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
-      <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
-        <Route index element={<ManufacturerOverview />} />
-        <Route path="profile" element={<ManufacturerProfile />} />
-      </Route>
+      <Route element={<ProtectedRoute />}>
+        <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
+          <Route index element={<ManufacturerOverview />} />
+          <Route path="profile" element={<ManufacturerProfile />} />
+        </Route>
 
-      <Route path="/vendor" element={<VendorDashboardLayout />}>
-        <Route index element={<VendorOverview />} />
-        <Route path="profile" element={<VendorProfile />} />
-      </Route>
+        <Route path="/vendor" element={<VendorDashboardLayout />}>
+          <Route index element={<VendorOverview />} />
+          <Route path="profile" element={<VendorProfile />} />
+        </Route>
 
-      <Route path="/customer" element={<CustomerDashboardLayout />}>
-        <Route index element={<CustomerOverview />} />
-        <Route path="profile" element={<CustomerProfile />} />
+        <Route path="/customer" element={<CustomerDashboardLayout />}>
+          <Route index element={<CustomerOverview />} />
+          <Route path="profile" element={<CustomerProfile />} />
+        </Route>
       </Route>
     </Routes>
   );

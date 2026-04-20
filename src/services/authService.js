@@ -79,7 +79,7 @@ export const authService = {
   loginUser: async (data, role) => {
   console.log(`login attempt for ${role}:`, data);
 
-  const response = await fetch(`${API_URL}/api/login`, {   // ✅ FIXED
+  const response = await fetch(`${API_URL}/api/login`, {   // 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
