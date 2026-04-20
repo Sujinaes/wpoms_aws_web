@@ -21,6 +21,10 @@ const ManufacturerDashboardLayout = () => {
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
+          <Link className="nav-item" to="/manufacturer/staffs">
+            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
+            <span className="nav-text">Staffs</span>
+          </Link>
           <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="verified_user">verified_user</span>
             <span className="nav-text">Warranties</span>

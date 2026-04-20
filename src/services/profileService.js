@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081';
+const API_URL = import.meta.env.VITE_API_BASE_URL || 'http://192.168.2.183:8081';
 
 // Function to get headers with JWT token
 const getAuthHeaders = () => {
@@ -126,6 +126,25 @@ export const profileService = {
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData?.message || 'Failed to fetch customer profile');
+    }
+
+    return response.json();
+  },
+
+  getStaffs : async(type)=>{
+
+    const STAFF_API = {
+     vendor: `${API_URL}`,
+     manufacturer: `${API_URL}`
+    };
+
+    const response=await fetch(STAFF_API[type],{
+      method:'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
+     if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData?.message || 'Failed to fetch staffs');
     }
 
     return response.json();

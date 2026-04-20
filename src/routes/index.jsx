@@ -17,6 +17,7 @@ import CustomerDashboardLayout from "../pages/Dashboard/CustomerDashboard";
 import ManufacturerOverview from "../pages/Overview/ManufacturerOverview";
 import VendorOverview from "../pages/Overview/VendorOverview";
 import CustomerOverview from "../pages/Overview/CustomerOverview";
+import Staffs from "../pages/Staffs/Staffs";
 
 const AppRoutes = () => {
   return (

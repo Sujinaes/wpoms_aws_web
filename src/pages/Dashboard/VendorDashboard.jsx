@@ -20,6 +20,10 @@ const VendorDashboardLayout = () => {
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
+          <Link className="nav-item" to="/vendor/staffs">
+            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
+            <span className="nav-text">Staffs</span>
+          </Link>
           <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="receipt_long">receipt_long</span>
             <span className="nav-text">My Orders</span>
