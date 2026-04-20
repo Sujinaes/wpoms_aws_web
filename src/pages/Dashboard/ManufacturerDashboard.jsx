@@ -1,9 +1,14 @@
 import React from 'react';
+import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 import { LogoWithoutSubtitle as Logo } from '../../components/logo/Logo';
+import ProductModal from '../../components/ProductModal/ProductModal';
+import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
 
 const ManufacturerDashboardLayout = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
@@ -12,7 +17,7 @@ const ManufacturerDashboardLayout = () => {
           <Logo />
         </div>
         <nav className="sidebar-nav">
-          <Link className="nav-item nav-item-active" to="/manufacturer/dashboard">
+          <Link className="nav-item nav-item-active" to="/manufacturer">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
@@ -35,9 +40,9 @@ const ManufacturerDashboardLayout = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-new-entry gold-gradient">
+          <button className="btn-new-entry gold-gradient" onClick={() => setIsModalOpen(true)}>
             <span className="material-symbols-outlined" data-icon="add">add</span>
-            New Entry
+            Add Product
           </button>
 
           <Link to="/manufacturer/profile" className="user-profile-link">
@@ -53,13 +58,7 @@ const ManufacturerDashboardLayout = () => {
       {/* Main Content Area */}
       <main className="dashboard-main">
         {/* TopAppBar */}
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">Manufacturer Dashboard</h1>
-          </div>
-          <div className="topbar-right">
-          </div>
-        </header>
+        <DashboardTopbar title="Manufacturer Dashboard" />
 
         {/* Page Content */}
         <div className="dashboard-content">
@@ -69,6 +68,8 @@ const ManufacturerDashboardLayout = () => {
         {/* Background detail */}
         <div className="dashboard-bg-glow"></div>
       </main>
+
+      <ProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

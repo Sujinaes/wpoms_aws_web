@@ -47,6 +47,16 @@ const Login = () => {
         localStorage.setItem('userId', result.user.id);
       }
 
+      // Store JWT Token
+      const token = result?.token || result?.jwt || result?.accessToken;
+      if (token) {
+        localStorage.setItem('jwtToken', token);
+      } else {
+        // Fallback for demo purposes if backend doesn't send token yet
+        // In a real scenario, you'd reject login if token is missing
+        localStorage.setItem('jwtToken', 'dummy-jwt-token-replace-me');
+      }
+
       // Store the user role inside localStorage
       if (userRole) {
         localStorage.setItem('role', userRole);
@@ -69,6 +79,7 @@ const Login = () => {
       title: 'Automated workflows',
       desc: 'Notifications for order updates and approvals.',
     },
+    
     {
       icon: <Lock size={22} />,
       title: 'Secure management',

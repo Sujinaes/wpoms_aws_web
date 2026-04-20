@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
+import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
 
 const CustomerDashboardLayout = () => {
   return (
@@ -15,7 +16,7 @@ const CustomerDashboardLayout = () => {
           <p className="sidebar-subtitle">Customer Portal</p>
         </div>
         <nav className="sidebar-nav">
-          <Link className="nav-item nav-item-active" to="/customer/dashboard">
+          <Link className="nav-item nav-item-active" to="/customer">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
@@ -56,13 +57,7 @@ const CustomerDashboardLayout = () => {
       {/* Main Content Area */}
       <main className="dashboard-main">
         {/* TopAppBar */}
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">Customer Dashboard</h1>
-          </div>
-          <div className="topbar-right">
-          </div>
-        </header>
+        <DashboardTopbar title="Customer Dashboard" />
 
         {/* Page Content */}
         <div className="dashboard-content">

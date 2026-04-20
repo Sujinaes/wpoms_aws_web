@@ -69,13 +69,7 @@ const CustomerProfile = () => {
   return (
     <div className="profile-wrapper">
 
-      {/* TopAppBar Component */}
-      <header className="profile-topbar">
-        <div className="topbar-left">
-        </div>
-        <div className="topbar-right">
-        </div>
-      </header>
+
 
       {/* Main Content Canvas */}
       <main className="profile-main">
