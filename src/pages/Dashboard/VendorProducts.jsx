@@ -11,7 +11,7 @@ const VendorProducts = () => {
       const data = await productService.getAllProducts();
       setProducts(data || []);
     } catch (err) {
-      console.error('Failed to load products');
+      console.error(err.message || 'Failed to load products');
     } finally {
       setIsLoading(false);
     }
@@ -52,12 +52,12 @@ const VendorProducts = () => {
             ) : products.length > 0 ? (
               products.map((product) => (
                 <tr key={product.id}>
-                  <td className="product-id">{product.id}</td>
-                  <td>{product.name}</td>
-                  <td>{product.category}</td>
-                  <td>{product.price}</td>
-                  <td>{product.warranty}</td>
-                  <td className="description-cell">{product.description}</td>
+                  <td className="product-id" data-label="Product ID">{product.id}</td>
+                  <td data-label="Product Name">{product.name}</td>
+                  <td data-label="Category">{product.category}</td>
+                  <td data-label="Price">{product.price}</td>
+                  <td data-label="Warranty Type">{product.warranty}</td>
+                  <td className="description-cell" data-label="Description">{product.description}</td>
                 </tr>
               ))
             ) : (

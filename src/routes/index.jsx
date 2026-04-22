@@ -12,6 +12,7 @@ import Home from "../pages/Home/Home";
 import ManufacturerOverview from "../pages/Overview/ManufacturerOverview";
 import VendorOverview from "../pages/Overview/VendorOverview";
 import CustomerOverview from "../pages/Overview/CustomerOverview";
+import Staffs from "../pages/Staffs/Staffs";
 import ManufacturerProducts from "../pages/Dashboard/ManufacturerProducts";
 import VendorProducts from "../pages/Dashboard/VendorProducts";
 
@@ -26,12 +27,14 @@ const AppRoutes = () => {
         <Route index element={<ManufacturerOverview />} />
         <Route path="product-catalog" element={<ManufacturerProducts />} />
         <Route path="profile" element={<ManufacturerProfile />} />
+        <Route path="staffs" element={<Staffs type="manufacturer"/>} />
       </Route>
 
       <Route path="/vendor" element={<VendorDashboardLayout />}>
         <Route index element={<VendorOverview />} />
         <Route path="product-catalog" element={<VendorProducts />} />
         <Route path="profile" element={<VendorProfile />} />
+        <Route path="staffs" element={<Staffs type="vendor"/>} />
       </Route>
 
       <Route path="/customer" element={<CustomerDashboardLayout />}>

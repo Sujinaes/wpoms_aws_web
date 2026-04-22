@@ -18,6 +18,10 @@ const VendorDashboardLayout = () => {
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
+          <Link className="nav-item" to="/vendor/staffs">
+            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
+            <span className="nav-text">Staffs</span>
+          </Link>
           <Link className="nav-item" to="/vendor/product-catalog">
             <span className="material-symbols-outlined nav-icon" data-icon="inventory_2">inventory_2</span>
             <span className="nav-text">Product Catalog</span>
