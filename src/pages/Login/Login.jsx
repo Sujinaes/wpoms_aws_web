@@ -129,7 +129,7 @@ const Login = () => {
           <header className={styles.formHeader}>
             <h1 className={styles.formTitle}>Welcome Back</h1>
             <p className={styles.formSubtitle}>
-              Please enter your credentials to access the archive.
+              Please enter your credentials to access the ve.
             </p>
           </header>
 
@@ -144,7 +144,8 @@ const Login = () => {
                   id="email"
                   type="email"
                   className={styles.input}
-                  placeholder="yourname@example.com"
+                 
+                  
                   {...register('email')}
                   autoComplete="email"
                 />
@@ -170,7 +171,7 @@ const Login = () => {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   className={styles.input}
-                  placeholder="••••••••••••"
+                  
                   {...register('password')}
                   autoComplete="current-password"
                 />

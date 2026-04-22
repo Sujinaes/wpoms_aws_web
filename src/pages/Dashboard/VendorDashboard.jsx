@@ -5,7 +5,6 @@ import './Dashboard.css';
 const VendorDashboardLayout = () => {
   return (
     <div className="dashboard-wrapper">
-      {/* SideNavBar */}
       <aside className="dashboard-sidebar">
         <div className="sidebar-header">
           <div className="sidebar-logo">
@@ -15,9 +14,13 @@ const VendorDashboardLayout = () => {
           <p className="sidebar-subtitle">Vendor Portal</p>
         </div>
         <nav className="sidebar-nav">
-          <Link className="nav-item nav-item-active" to="/vendor/dashboard">
+          <Link className="nav-item nav-item-active" to="/vendor">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
+          </Link>
+          <Link className="nav-item" to="/vendor/product-catalog">
+            <span className="material-symbols-outlined nav-icon" data-icon="inventory_2">inventory_2</span>
+            <span className="nav-text">Product Catalog</span>
           </Link>
           <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="receipt_long">receipt_long</span>
@@ -35,14 +38,10 @@ const VendorDashboardLayout = () => {
             <span className="material-symbols-outlined nav-icon" data-icon="payments">payments</span>
             <span className="nav-text">Payments</span>
           </a>
-          <a className="nav-item" href="#">
-            <span className="material-symbols-outlined nav-icon" data-icon="settings">settings</span>
-            <span className="nav-text">Settings</span>
-          </a>
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-new-entry gold-gradient">
+          <button className="btn-new-entry gold-gradient" type="button">
             <span className="material-symbols-outlined" data-icon="add">add</span>
             New Order
           </button>
@@ -57,23 +56,18 @@ const VendorDashboardLayout = () => {
         </div>
       </aside>
 
-      {/* Main Content Area */}
       <main className="dashboard-main">
-        {/* TopAppBar */}
         <header className="dashboard-topbar">
           <div className="topbar-left">
             <h1 className="topbar-title">Vendor Dashboard</h1>
           </div>
-          <div className="topbar-right">
-          </div>
+          <div className="topbar-right"></div>
         </header>
 
-        {/* Page Content */}
         <div className="dashboard-content">
           <Outlet />
         </div>
 
-        {/* Background detail */}
         <div className="dashboard-bg-glow"></div>
       </main>
     </div>
