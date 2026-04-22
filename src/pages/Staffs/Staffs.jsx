@@ -159,7 +159,7 @@ useEffect(() => {
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
+                        <form onSubmit={handleSubmit(onSubmit)} className="modal-form" autoComplete="off">
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>FULL NAME</label>
@@ -171,13 +171,13 @@ useEffect(() => {
                             <div className="form-row">
                                 <div className="form-group">
                                     <label>EMAIL ADDRESS</label>
-                                    <input type="email" {...register('email')}  className={errors.email ? 'error-input' : ''} />
+                                    <input type="email" autoComplete="new-email" {...register('email')}  className={errors.email ? 'error-input' : ''} />
                                     {errors.email && <p className="error">{errors.email.message}</p>}
                                 </div>
 
                                  <div className="form-group">
                                     <label>PASSWORD</label>
-                                    <input type="password" {...register('password')} className={errors.password ? 'error-input' : ''} />
+                                    <input type="password" autoComplete="new-password" {...register('password')} className={errors.password ? 'error-input' : ''} />
                                     {errors.password && <p className="error">{errors.password.message}</p>}
                                 </div>
 
