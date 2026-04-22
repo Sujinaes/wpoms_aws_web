@@ -144,7 +144,8 @@ const Login = () => {
                   id="email"
                   type="email"
                   className={styles.input}
-                  placeholder="yourname@example.com"
+                 
+                  
                   {...register('email')}
                   autoComplete="email"
                 />
@@ -170,7 +171,7 @@ const Login = () => {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   className={styles.input}
-                  placeholder="••••••••••••"
+                  
                   {...register('password')}
                   autoComplete="current-password"
                 />
