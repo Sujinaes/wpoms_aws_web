@@ -135,6 +135,7 @@ const ManufacturerProducts = () => {
 
   const handleAddSubmit = async (event) => {
     event.preventDefault();
+    
 
     const result = productSchema.safeParse(newProduct);
     if (!result.success) {
@@ -145,7 +146,7 @@ const ManufacturerProducts = () => {
     try {
       const response = await productService.addProduct(newProduct);
       if (response.success && response.product) {
-        setProducts([...products, response.product]);
+        fetchProducts(); 
         setErrors({});
         closeAddModal();
         toast.success('Product added successfully');

@@ -32,10 +32,10 @@ const ManufacturerDashboardLayout = () => {
             <span className="material-symbols-outlined nav-icon" data-icon="shopping_cart">shopping_cart</span>
             <span className="nav-text">Purchase Orders</span>
           </a>
-          <a className="nav-item" href="#">
+          {/* <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="inventory_2">inventory_2</span>
             <span className="nav-text">Archive</span>
-          </a>
+          </a> */}
         </nav>
 
         <div className="sidebar-footer">

@@ -129,7 +129,7 @@ const Login = () => {
           <header className={styles.formHeader}>
             <h1 className={styles.formTitle}>Welcome Back</h1>
             <p className={styles.formSubtitle}>
-              Please enter your credentials to access the ve.
+              Please enter your credentials to access the archive.
             </p>
           </header>
 
