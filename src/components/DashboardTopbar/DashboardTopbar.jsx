@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -30,7 +30,8 @@ const DashboardTopbar = ({ title }) => {
         <h1 className="topbar-title">{title}</h1>
       </div>
       <div className="topbar-right">
-        {/* Other actions can go here in the future */}
+
+        {/* Logout Button */}
         <button 
           onClick={handleLogoutClick} 
           className="action-btn" 

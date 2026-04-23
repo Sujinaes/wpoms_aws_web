@@ -29,12 +29,15 @@ const AppRoutes = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
           <Route index element={<ManufacturerOverview />} />
+           <Route path="staffs" element={<Staffs type="manufacturer" />} />
           <Route path="profile" element={<ManufacturerProfile />} />
+           
         </Route>
 
         <Route path="/vendor" element={<VendorDashboardLayout />}>
           <Route index element={<VendorOverview />} />
           <Route path="profile" element={<VendorProfile />} />
+          <Route path="staffs" element={<Staffs type="vendor" />} />
         </Route>
 
         <Route path="/customer" element={<CustomerDashboardLayout />}>

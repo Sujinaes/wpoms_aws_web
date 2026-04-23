@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
+import { profileService } from '../../services/profileService';
 
 const CustomerDashboardLayout = () => {
+  const [userName, setUserName] = useState("Loading...");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          const data = await profileService.getCustomerProfile(userId);
+          setUserName(data?.customerName || "Customer");
+        }
+      } catch (err) {
+        console.error("Error fetching customer profile:", err);
+        setUserName("Customer");
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
@@ -47,7 +66,7 @@ const CustomerDashboardLayout = () => {
           <Link to="/customer/profile" className="user-profile-link">
             <span className="material-symbols-outlined" style={{ fontSize: '2.5rem', color: '#CBD5E1' }}>account_circle</span>
             <div className="user-info">
-              <p className="user-name">Reshma M</p>
+              <p className="user-name">{userName}</p>
               <p className="user-role">Customer</p>
             </div>
           </Link>

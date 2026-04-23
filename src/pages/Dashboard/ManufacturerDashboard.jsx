@@ -1,13 +1,30 @@
-import React from 'react';
-import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import { LogoWithoutSubtitle as Logo } from '../../components/logo/Logo';
-import ProductModal from '../../components/ProductModal/ProductModal';
 import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
+import { profileService } from '../../services/profileService';
+
 
 const ManufacturerDashboardLayout = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
+  const [userName, setUserName] = useState("Loading...");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          const data = await profileService.getManufacturerProfile(userId);
+          setUserName(data?.companyName || "Manufacturer");
+        }
+      } catch (err) {
+        console.error("Error fetching manufacturer profile:", err);
+        setUserName("Manufacturer");
+      }
+    };
+    fetchProfile();
+  }, []);
 
   return (
     <div className="dashboard-wrapper">
@@ -20,10 +37,6 @@ const ManufacturerDashboardLayout = () => {
           <Link className="nav-item nav-item-active" to="/manufacturer">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
-          </Link>
-          <Link className="nav-item" to="/manufacturer/staffs">
-            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
-            <span className="nav-text">Staffs</span>
           </Link>
           <a className="nav-item" href="#">
             <span className="material-symbols-outlined nav-icon" data-icon="verified_user">verified_user</span>
@@ -44,7 +57,7 @@ const ManufacturerDashboardLayout = () => {
         </nav>
 
         <div className="sidebar-footer">
-          <button className="btn-new-entry gold-gradient" onClick={() => setIsModalOpen(true)}>
+          <button className="btn-new-entry gold-gradient" onClick={() => navigate('/manufacturer/add-product')}>
             <span className="material-symbols-outlined" data-icon="add">add</span>
             Add Product
           </button>
@@ -52,7 +65,7 @@ const ManufacturerDashboardLayout = () => {
           <Link to="/manufacturer/profile" className="user-profile-link">
             <span className="material-symbols-outlined" style={{ fontSize: '2.5rem', color: '#CBD5E1' }}>account_circle</span>
             <div className="user-info">
-              <p className="user-name">Alexander Cole</p>
+              <p className="user-name">{userName}</p>
               <p className="user-role">Manufacturer</p>
             </div>
           </Link>
@@ -72,8 +85,6 @@ const ManufacturerDashboardLayout = () => {
         {/* Background detail */}
         <div className="dashboard-bg-glow"></div>
       </main>
-
-      <ProductModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
