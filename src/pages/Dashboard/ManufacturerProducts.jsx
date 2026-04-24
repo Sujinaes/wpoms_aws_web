@@ -1,4 +1,5 @@
 import React, {  useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {  z } from "zod";
 import { productService } from '../../services/productService';
 // import './ManufacturerProducts.css';
@@ -43,8 +44,10 @@ const ManufacturerProducts = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [pendingUpdate, setPendingUpdate] = useState(null);
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const [newProduct, setNewProduct] = useState({
+    id: "" , 
     name: '',
     category: '',
     price: '',
@@ -56,7 +59,17 @@ const ManufacturerProducts = () => {
     try {
       setIsLoading(true);
       const data = await productService.getAllProducts();
-      setProducts(data || []);
+      let allProducts = data.map((p)=>{
+        return {
+          name: p.productName,
+          category : p.category, 
+          price : p.price , 
+          warranty : p.warrantyType,
+          description : p.description,
+          id: p.productId 
+        }
+      })
+      setProducts(allProducts || []);
     } catch (err) {
       toast.error(err.message||'Failed to load products');
     } finally {
@@ -191,7 +204,12 @@ const ManufacturerProducts = () => {
               </tr>
             ) : products.length > 0 ? (
               products.map((product) => (
-                <tr key={product.id}>
+                <tr 
+                  key={product.id}
+                  onClick={() => navigate(`/manufacturer/product-catalog/${product.id}`)}
+                  style={{ cursor: 'pointer' }}
+                  className="clickable-row"
+                >
                   <td className="product-id">{product.id}</td>
                   <td>{product.name}</td>
                   <td>{product.category}</td>
@@ -201,13 +219,14 @@ const ManufacturerProducts = () => {
                   <td className="actions-cell">
                     <button
                       className="action-btn edit-btn"
-                      onClick={() => openEditModal(product)}
+                      onClick={(e) => { e.stopPropagation(); openEditModal(product); }}
                       title="Edit"
                     >
                       <span className="material-symbols-outlined">edit</span>
                     </button>
                     <button
                       className="action-btn delete-btn"
+                      onClick={(e) => e.stopPropagation()}
                       title="Delete"
                     >
                       <span className="material-symbols-outlined">delete</span>

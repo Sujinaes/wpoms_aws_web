@@ -85,7 +85,7 @@ const CustomerProfile = () => {
 
             <div className="hero-info">
               <div className="hero-title-row">
-                <h2 className="user-name-large">{profileData?.customerName || "Reshma M"}</h2>
+                <h2 className="user-name-large">{profileData?.customerName || localStorage.getItem('username') || "Reshma M"}</h2>
                 <span className="role-badge">Customer</span>
               </div>
               <p className="user-email">{profileData?.customerEmail || "reshma.m@example.com"}</p>

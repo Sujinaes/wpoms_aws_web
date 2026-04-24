@@ -85,7 +85,7 @@ const ManufacturerProfile = () => {
 
             <div className="hero-info">
               <div className="hero-title-row">
-                <h2 className="user-name-large">{profileData?.companyName || "Manufacturer Enterprises"}</h2>
+                <h2 className="user-name-large">{profileData?.companyName || localStorage.getItem('username') || "Manufacturer Enterprises"}</h2>
                 <span className="role-badge">Manufacturer</span>
               </div>
               <p className="user-email">{profileData?.companyEmail || "contact@manufacturer.com"}</p>

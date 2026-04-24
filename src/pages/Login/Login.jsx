@@ -41,10 +41,13 @@ const Login = () => {
 
       if (result && result.id) {
         localStorage.setItem('userId', result.id);
+        localStorage.setItem('roleId', result.roleId);
       } else if (result && result.userId) {
         localStorage.setItem('userId', result.userId);
+        localStorage.setItem('roleId', result.roleId);
       } else if (result && result.user && result.user.id) {
         localStorage.setItem('userId', result.user.id);
+        localStorage.setItem('roleId', result.roleId);
       }
 
       // Store JWT Token
@@ -52,14 +55,18 @@ const Login = () => {
       if (token) {
         localStorage.setItem('jwtToken', token);
       } else {
-        // Fallback for demo purposes if backend doesn't send token yet
-        // In a real scenario, you'd reject login if token is missing
-        localStorage.setItem('jwtToken', 'dummy-jwt-token-replace-me');
+        throw new Error('Authentication failed: No valid token received from server');
       }
 
       // Store the user role inside localStorage
       if (userRole) {
         localStorage.setItem('role', userRole);
+      }
+
+      // Store the username / email
+      const username = result?.username || result?.name || result?.user?.username || result?.user?.name || data.email;
+      if (username) {
+        localStorage.setItem('username', username);
       }
 
       navigate(`/${userRole}`);

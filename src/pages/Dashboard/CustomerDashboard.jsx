@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
-import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
+
+import DashboardTopbar from '../../components/DashboardTopbar';
 import { profileService } from '../../services/profileService';
 
 const CustomerDashboardLayout = () => {

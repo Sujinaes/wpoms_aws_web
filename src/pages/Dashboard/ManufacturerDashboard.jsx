@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 import { LogoWithoutSubtitle as Logo } from '../../components/logo/Logo';
-import DashboardTopbar from '../../components/DashboardTopbar/DashboardTopbar';
+import DashboardTopbar from '../../components/DashboardTopbar';
 import { profileService } from '../../services/profileService';
 
 
 const ManufacturerDashboardLayout = () => {
-  const navigate = useNavigate();
+
   const [userName, setUserName] = useState("Loading...");
 
   useEffect(() => {
@@ -37,6 +37,10 @@ const ManufacturerDashboardLayout = () => {
           <Link className="nav-item nav-item-active" to="/manufacturer">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
+          </Link>
+          <Link className="nav-item" to="/manufacturer/staffs">
+            <span className="material-symbols-outlined nav-icon" data-icon="badge">badge</span>
+            <span className="nav-text">Staffs</span>
           </Link>
           <Link className="nav-item" to="/manufacturer/product-catalog">
             <span className="material-symbols-outlined nav-icon" data-icon="inventory_2">inventory_2</span>
@@ -68,12 +72,7 @@ const ManufacturerDashboardLayout = () => {
       </aside>
 
       <main className="dashboard-main">
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">Manufacturer Dashboard</h1>
-          </div>
-          <div className="topbar-right"></div>
-        </header>
+        <DashboardTopbar title="Manufacturer Dashboard" />
 
         <div className="dashboard-content">
           <Outlet />
