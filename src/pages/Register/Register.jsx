@@ -249,7 +249,7 @@ const Register = () => {
                 {...basicForm.register('email')}
                 type="email"
                 className={styles.input}
-                placeholder="a.thorne@enterprise.com"
+                
               />
               <span className={styles.inputIcon}><Mail size={18} /></span>
             </div>
@@ -261,7 +261,7 @@ const Register = () => {
                 {...basicForm.register('password')}
                 type={showPassword ? 'text' : 'password'}
                 className={styles.input}
-                placeholder="••••••••••••"
+               
               />
               <button
                 type="button"
@@ -279,7 +279,7 @@ const Register = () => {
                 {...basicForm.register('confirmPassword')}
                 type={showConfirm ? 'text' : 'password'}
                 className={styles.input}
-                placeholder="••••••••••••"
+               
               />
               <button
                 type="button"
@@ -395,30 +395,30 @@ const Register = () => {
               <>
                 <InputRow>
                   <Field label="Vendor Name" error={errors.vendorName?.message}>
-                    <input {...register('vendorName')} type="text" className={styles.input} placeholder="Legal Business Name" />
+                    <input {...register('vendorName')} type="text" className={styles.input} />
                   </Field>
                   <Field label="Business Email" error={errors.vendorEmail?.message}>
-                    <input {...register('vendorEmail')} type="email" className={styles.input} placeholder="example@company.com" />
+                    <input {...register('vendorEmail')} type="email" className={styles.input}  />
                   </Field>
                 </InputRow>
                 <InputRow>
                   <Field label="Address" error={errors.vendorAddress?.message}>
-                    <input {...register('vendorAddress')} type="text" className={styles.input} placeholder="Street Address, Building No." />
+                    <input {...register('vendorAddress')} type="text" className={styles.input} />
                   </Field>
                   <Field label="Place / City" error={errors.vendorCity?.message}>
-                    <input {...register('vendorCity')} type="text" className={styles.input} placeholder="e.g. New York" />
+                    <input {...register('vendorCity')} type="text" className={styles.input} />
                   </Field>
                 </InputRow>
                 <InputRow>
                   <Field label="Phone" error={errors.vendorPhone?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('vendorPhone')} type="tel" className={styles.input} placeholder="+1 (000) 000-0000" />
+                      <input {...register('vendorPhone')} type="tel" className={styles.input} />
                       <span className={styles.inputIcon}><Phone size={18} /></span>
                     </div>
                   </Field>
                   <Field label="GST Reg No" error={errors.vendorGstNo?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('vendorGstNo')} type="text" className={styles.input} placeholder="Registration ID" />
+                      <input {...register('vendorGstNo')} type="text" className={styles.input}  />
                       <span className={styles.inputIcon}><BadgeCheck size={18} /></span>
                     </div>
                   </Field>
@@ -440,25 +440,25 @@ const Register = () => {
               <>
                 <InputRow>
                   <Field label="Company Name" error={errors.companyName?.message}>
-                    <input {...register('companyName')} type="text" className={styles.input} placeholder="e.g. Heritage Manufacturing Ltd" />
+                    <input {...register('companyName')} type="text" className={styles.input} />
                   </Field>
                   <Field label="Company Email" error={errors.companyEmail?.message}>
-                    <input {...register('companyEmail')} type="email" className={styles.input} placeholder="corporate@heritage.com" />
+                    <input {...register('companyEmail')} type="email" className={styles.input} />
                   </Field>
                 </InputRow>
                 <Field label="Registered Company Address" error={errors.companyAddress?.message}>
-                  <input {...register('companyAddress')} type="text" className={styles.input} placeholder="Suite 400, Industrial Plaza, London, UK" />
+                  <input {...register('companyAddress')} type="text" className={styles.input}  />
                 </Field>
                 <InputRow>
                   <Field label="Company Phone" error={errors.companyPhone?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('companyPhone')} type="tel" className={styles.input} placeholder="+44 20 7946 0000" />
+                      <input {...register('companyPhone')} type="tel" className={styles.input}  />
                       <span className={styles.inputIcon}><Phone size={18} /></span>
                     </div>
                   </Field>
                   <Field label="GST / Business Reg No." error={errors.companyGstNo?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('companyGstNo')} type="text" className={styles.input} placeholder="GB 123 4567 89" />
+                      <input {...register('companyGstNo')} type="text" className={styles.input}  />
                       <span className={styles.inputIcon}><BadgeCheck size={18} /></span>
                     </div>
                   </Field>
@@ -481,13 +481,13 @@ const Register = () => {
                 <InputRow>
                   <Field label="Full Name" error={errors.customerName?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('customerName')} type="text" className={styles.input} placeholder="e.g. John Doe" />
+                      <input {...register('customerName')} type="text" className={styles.input}  />
                       <span className={styles.inputIcon}><User size={18} /></span>
                     </div>
                   </Field>
                   <Field label="Phone No" error={errors.phoneNo?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('phoneNo')} type="tel" className={styles.input} placeholder="e.g. 9987654678" />
+                      <input {...register('phoneNo')} type="tel" className={styles.input}  />
                       <span className={styles.inputIcon}><Phone size={18} /></span>
                     </div>
                   </Field>
@@ -510,14 +510,14 @@ const Register = () => {
                   </Field> */}
                   <Field label="Alternate Phone No" error={errors.contactPreference?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('contactPreference')} type="tel" className={styles.input} placeholder="e.g. 9987654678" />
+                      <input {...register('contactPreference')} type="tel" className={styles.input} />
                       <span className={styles.inputIcon}><Phone size={18} /></span>
                     </div>
                   </Field>
                 </InputRow>
                 <Field label="Shipping Address" error={errors.shippingAddress?.message}>
                   <div className={styles.inputWrapper}>
-                    <input {...register('shippingAddress')} type="text" className={styles.input} placeholder="e.g. 123 Main St, City, State 12345" />
+                    <input {...register('shippingAddress')} type="text" className={styles.input}  />
                     <span className={styles.inputIcon}><MapPin size={18} /></span>
                   </div>
                 </Field>
@@ -529,13 +529,13 @@ const Register = () => {
                 <InputRow>
                   <Field label="Staff ID" error={errors.staffId?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('staffId')} type="text" className={styles.input} placeholder="Enter ID" />
+                      <input {...register('staffId')} type="text" className={styles.input}  />
                       <span className={styles.inputIcon}><BadgeCheck size={18} /></span>
                     </div>
                   </Field>
                   <Field label="Temporary Password" error={errors.tempPassword?.message}>
                     <div className={styles.inputWrapper}>
-                      <input {...register('tempPassword')} type="password" className={styles.input} placeholder="••••••••" />
+                      <input {...register('tempPassword')} type="password" className={styles.input} />
                       <span className={styles.inputIcon}><Lock size={18} /></span>
                     </div>
                   </Field>
