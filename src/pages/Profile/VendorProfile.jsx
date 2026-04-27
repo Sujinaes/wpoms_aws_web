@@ -39,12 +39,11 @@ const VendorProfile = () => {
         setProfileData(data);
         reset(data);
       } else {
-        console.log("No userId found");
         toast.error("You are not logged in");
         navigate("/login");
       }
     } catch (err) {
-      console.error("Error fetching vendor profile:", err);
+      return err;
     } finally {
       setLoading(false);
     }
@@ -62,8 +61,8 @@ const VendorProfile = () => {
       setIsEditing(false);
       fetchProfile();
     } catch (err) {
-      console.error(err);
       toast.error(err.message || "Failed to update profile");
+      return err;
     }
   };
 
@@ -74,13 +73,7 @@ const VendorProfile = () => {
 
   return (
     <div className="profile-wrapper">
-      {/* TopAppBar Component */}
-      <header className="profile-topbar">
-        <div className="topbar-left">
-        </div>
-        <div className="topbar-right">
-        </div>
-      </header>
+
 
       {/* Main Content Canvas */}
       <main className="profile-main">
@@ -96,7 +89,7 @@ const VendorProfile = () => {
 
             <div className="hero-info">
               <div className="hero-title-row">
-                <h2 className="user-name-large">{profileData?.vendorName || "Rahul Kumar"}</h2>
+                <h2 className="user-name-large">{profileData?.vendorName || localStorage.getItem('username') || "Rahul Kumar"}</h2>
                 <span className="role-badge">Vendor</span>
               </div>
               <p className="user-email">{profileData?.vendorEmail || "vendor@alliance.com"}</p>

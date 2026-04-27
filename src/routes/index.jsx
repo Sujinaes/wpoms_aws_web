@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "../components/ProtectedRoute/ProtectedRoute";
 import Register from "../pages/Register/Register";
 import Login from "../pages/Login/Login";
 import ManufacturerDashboardLayout from "../pages/Dashboard/ManufacturerDashboard";
@@ -15,6 +16,7 @@ import CustomerOverview from "../pages/Overview/CustomerOverview";
 import Staffs from "../pages/Staffs/Staffs";
 import ManufacturerProducts from "../pages/Dashboard/ManufacturerProducts";
 import VendorProducts from "../pages/Dashboard/VendorProducts";
+import ProductDetails from "../pages/Dashboard/ProductDetails";
 
 const AppRoutes = () => {
   return (
@@ -23,23 +25,28 @@ const AppRoutes = () => {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
 
-      <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
-        <Route index element={<ManufacturerOverview />} />
+      <Route element={<ProtectedRoute />}>
+        <Route path="/manufacturer" element={<ManufacturerDashboardLayout />}>
+          <Route index element={<ManufacturerOverview />} />
         <Route path="product-catalog" element={<ManufacturerProducts />} />
-        <Route path="profile" element={<ManufacturerProfile />} />
-        <Route path="staffs" element={<Staffs type="manufacturer"/>} />
-      </Route>
+        <Route path="product-catalog/:id" element={<ProductDetails />} />
+           <Route path="staffs" element={<Staffs type="manufacturer" />} />
+          <Route path="profile" element={<ManufacturerProfile />} />
+           
+        </Route>
 
-      <Route path="/vendor" element={<VendorDashboardLayout />}>
-        <Route index element={<VendorOverview />} />
+        <Route path="/vendor" element={<VendorDashboardLayout />}>
+          <Route index element={<VendorOverview />} />
         <Route path="product-catalog" element={<VendorProducts />} />
-        <Route path="profile" element={<VendorProfile />} />
-        <Route path="staffs" element={<Staffs type="vendor"/>} />
-      </Route>
+        <Route path="product-catalog/:id" element={<ProductDetails />} />
+          <Route path="profile" element={<VendorProfile />} />
+          <Route path="staffs" element={<Staffs type="vendor" />} />
+        </Route>
 
-      <Route path="/customer" element={<CustomerDashboardLayout />}>
-        <Route index element={<CustomerOverview />} />
-        <Route path="profile" element={<CustomerProfile />} />
+        <Route path="/customer" element={<CustomerDashboardLayout />}>
+          <Route index element={<CustomerOverview />} />
+          <Route path="profile" element={<CustomerProfile />} />
+        </Route>
       </Route>
     </Routes>
   );

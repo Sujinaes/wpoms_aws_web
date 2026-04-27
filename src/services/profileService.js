@@ -1,142 +1,90 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL 
+import apiClient from '../apiClient';
 
 export const profileService = {
   updateCustomer: async (id, data) => {
-    console.log(data,id);
-    const response = await fetch(`${API_URL}/api/customer/update-customer?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
+    try {
+      const response = await apiClient.put(`/api/customer/update-customer?id=${id}`, data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(
         (errorData?.errors ? Object.values(errorData.errors).join(", ") : undefined) ||
         errorData?.message ||
         'Failed to update customer'
       );
     }
-
-    try {
-      return await response.json();
-    } catch {
-      return { success: true };
-    }
   },
 
   updateVendor: async (id, data) => {
-    const response = await fetch(`${API_URL}/api/vendor/edit?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
+    try {
+      const response = await apiClient.put(`/api/vendor/edit?id=${id}`, data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(
         (errorData?.errors ? Object.values(errorData.errors).join(", ") : undefined) ||
         errorData?.message ||
         'Failed to update vendor'
       );
     }
-
-    try {
-      return await response.json();
-    } catch {
-      return { success: true };
-    }
   },
 
   updateManufacturer: async (id, data) => {
-    const response = await fetch(`${API_URL}/api/admin/update-manufacture?id=${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
+    try {
+      const response = await apiClient.put(`/api/admin/update-manufacture?id=${id}`, data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(
         (errorData?.errors ? Object.values(errorData.errors).join(", ") : undefined) ||
         errorData?.message ||
         'Failed to update manufacturer'
       );
     }
-
-    try {
-      return await response.json();
-    } catch {
-      return { success: true };
-    }
   },
-  getManufacturerProfile: async (id) => {
-    const response = await fetch(`${API_URL}/api/admin/manufacturer?id=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+  getManufacturerProfile: async (id) => {
+    try {
+      const response = await apiClient.get(`/api/admin/manufacturer?id=${id}`);
+      return response.data;
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(errorData?.message || 'Failed to fetch manufacturer profile');
     }
-
-    return response.json();
   },
 
   getVendorProfile: async (id) => {
-    const response = await fetch(`${API_URL}/api/vendor/get?id=${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+    try {
+      const response = await apiClient.get(`/api/vendor/get?id=${id}`);
+      return response.data;
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(errorData?.message || 'Failed to fetch vendor profile');
     }
-
-    return response.json();
   },
 
   getCustomerProfile: async (id) => {
-    const response = await fetch(`${API_URL}/api/customer/view-customer?id=${id}`, {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+    try {
+      const response = await apiClient.get(`/api/customer/view-customer?id=${id}`);
+      return response.data;
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(errorData?.message || 'Failed to fetch customer profile');
     }
-
-    return response.json();
   },
 
-  getStaffs : async(type)=>{
-
+  getStaffs: async (type) => {
     const STAFF_API = {
-     vendor: `${API_URL}`,
-     manufacturer: `${API_URL}`
+      vendor: `api/vendor/staff-list?vendorId=${localStorage.getItem("roleId")}`, // Was `${AP`
+      manufacturer: `api/admin/manufacturer/staff-list?manufacturerId=${localStorage.getItem("roleId")}` // Was `${API_URL}`
     };
 
-    const response=await fetch(STAFF_API[type],{
-      method:'GET',
-      headers: { 'Content-Type': 'application/json' },
-    });
-     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+    try {
+      const response = await apiClient.get(STAFF_API[type]);
+      return response.data;
+    } catch (error) {
+      const errorData = error.response?.data;
       throw new Error(errorData?.message || 'Failed to fetch staffs');
     }
-
-    return response.json();
   }
 };

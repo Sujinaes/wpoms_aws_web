@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 
+import DashboardTopbar from '../../components/DashboardTopbar';
+import { profileService } from '../../services/profileService';
+
 const CustomerDashboardLayout = () => {
+  const [userName, setUserName] = useState("Loading...");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          const data = await profileService.getCustomerProfile(userId);
+          setUserName(data?.customerName || "Customer");
+        }
+      } catch (err) {
+        setUserName("Customer");
+        return err;
+      }
+    };
+    fetchProfile();
+  }, []);
+
   return (
     <div className="dashboard-wrapper">
       {/* SideNavBar */}
@@ -15,7 +36,7 @@ const CustomerDashboardLayout = () => {
           <p className="sidebar-subtitle">Customer Portal</p>
         </div>
         <nav className="sidebar-nav">
-          <Link className="nav-item nav-item-active" to="/customer/dashboard">
+          <Link className="nav-item nav-item-active" to="/customer">
             <span className="material-symbols-outlined nav-icon" data-icon="dashboard">dashboard</span>
             <span className="nav-text">Dashboard</span>
           </Link>
@@ -46,7 +67,7 @@ const CustomerDashboardLayout = () => {
           <Link to="/customer/profile" className="user-profile-link">
             <span className="material-symbols-outlined" style={{ fontSize: '2.5rem', color: '#CBD5E1' }}>account_circle</span>
             <div className="user-info">
-              <p className="user-name">Reshma M</p>
+              <p className="user-name">{userName}</p>
               <p className="user-role">Customer</p>
             </div>
           </Link>
@@ -56,13 +77,7 @@ const CustomerDashboardLayout = () => {
       {/* Main Content Area */}
       <main className="dashboard-main">
         {/* TopAppBar */}
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">Customer Dashboard</h1>
-          </div>
-          <div className="topbar-right">
-          </div>
-        </header>
+        <DashboardTopbar title="Customer Dashboard" />
 
         {/* Page Content */}
         <div className="dashboard-content">

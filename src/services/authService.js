@@ -1,138 +1,85 @@
-const API_URL = import.meta.env.VITE_API_BASE_URL 
+import apiClient from '../apiClient';
 
 export const authService = {
   registerManufacturer: async (data) => {
-    console.log("manufacutreer details : ");
-    console.log(data);
-    const response = await fetch(`${API_URL}/api/admin/register-manufacturer`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register manufacturer');
-    }
-
-    // Sometimes response might be just text or json
     try {
-      return await response.json();
-    } catch {
-      return { success: true };
+      const response = await apiClient.post('/api/admin/register-manufacturer', data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
+      throw new Error(
+        (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
+        errorData?.message || 
+        'Failed to register manufacturer'
+      );
     }
   },
 
   registerVendor: async (data) => {
-
-    console.log("vendor details : ");
-    console.log(data);
-
-    const response = await fetch(`${API_URL}/api/vendor/register`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
-      console.log("error data " + errorData);
-      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register vendor');
-    }
-
-
     try {
-      const data = await response.json();
-      return data;
-    } catch {
-      return { success: true };
+      const response = await apiClient.post('/api/vendor/register', data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
+      throw new Error(
+        (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
+        errorData?.message || 
+        'Failed to register vendor'
+      );
     }
   },
 
   registerCustomer: async (data) => {
-    console.log("customer details : ");
-    console.log(data);
-
-    const response = await fetch(`${API_URL}/api/customer/register-customer`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register customer');
-    }
-
     try {
-      return await response.json();
-    } catch {
-      return { success: true }; // Fallback for 200 OK without JSON body
-    }
-  } ,
-
-  registerStaff: async(type,data)=>{
-
-    const STAFF_API = {
-    vendor: `${API_URL}`,
-    manufacturer: `${API_URL}`
-    };
-
-      console.log(`${type} staff details:`, data);
-
-    const response = await fetch(STAFF_API[type], {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-
-     if (!response.ok) {
-      const errorData = await response.json().catch((err) => console.log(err));
-      throw new Error(errorData?.message || Object.values(errorData?.errors).join(", ") || 'Failed to register staff');
-    }
-
-    try {
-      return await response.json();
-    } catch {
-      return { success: true }; 
+      const response = await apiClient.post('/api/customer/register-customer', data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
+      throw new Error(
+        (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
+        errorData?.message || 
+        'Failed to register customer'
+      );
     }
   },
 
+  registerStaff: async (type, data) => {
+    const STAFF_API = {
+      vendor: '/api/vendor/create-staff', // Was `${API_URL}` - check original
+      manufacturer: '/api/admin/manufacturer/create-staff' // Was `${API_URL}` - check original
+    };
 
+    try {
+      let roleId = localStorage.getItem("roleId")
 
-  loginUser: async (data, role) => {
-  console.log(`login attempt for ${role}:`, data);
+      if(type==="vendor"){
+        data = {...data , vendorId :roleId}
+      }else if(type == "manufacturer"){
+        data = { ...data , manufacturerId: roleId}
+      }
+      const response = await apiClient.post(STAFF_API[type], data);
+      return response.data || { success: true };  
+    } catch (error) {
+      const errorData = error.response?.data;
+      throw new Error(
+        (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
+        errorData?.message || 
+        'Failed to register staff'
+      );
+    }
+  },
 
-  const response = await fetch(`${API_URL}/api/login`, {   // ✅ FIXED
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => null);
-    throw new Error(
-      errorData?.message || 
-      (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
-      'Failed to log in'
-    );
+  loginUser: async (data) => {
+    try {
+      const response = await apiClient.post('/api/login', data);
+      return response.data || { success: true };
+    } catch (error) {
+      const errorData = error.response?.data;
+      throw new Error(
+        (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
+        errorData?.message || 
+        'Failed to log in'
+      );
+    }
   }
-
-  try {
-    return await response.json();
-  } catch {
-    return { success: true };
-  }
-}
-
 };

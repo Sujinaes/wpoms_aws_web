@@ -165,7 +165,6 @@ const Register = () => {
 
   const handleDetailsSubmit = async (data) => {
     const finalData = { ...allData, ...data };
-    console.log('Final submission:', finalData);
 
     try {
       if (finalData.role === 'manufacturer') {

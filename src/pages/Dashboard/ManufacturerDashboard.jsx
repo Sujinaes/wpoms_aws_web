@@ -1,9 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import './Dashboard.css';
 import { LogoWithoutSubtitle as Logo } from '../../components/logo/Logo';
+import DashboardTopbar from '../../components/DashboardTopbar';
+import { profileService } from '../../services/profileService';
+
 
 const ManufacturerDashboardLayout = () => {
+
+  const [userName, setUserName] = useState("Loading...");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+          const data = await profileService.getManufacturerProfile(userId);
+          setUserName(data?.companyName || "Manufacturer");
+        }
+      } catch (err) {
+        setUserName("Manufacturer");
+        return err;
+      }
+    };
+    fetchProfile();
+  }, []);
+
 
   return (
     <div className="dashboard-wrapper">
@@ -42,7 +64,7 @@ const ManufacturerDashboardLayout = () => {
           <Link to="/manufacturer/profile" className="user-profile-link">
             <span className="material-symbols-outlined" style={{ fontSize: '2.5rem', color: '#CBD5E1' }}>account_circle</span>
             <div className="user-info">
-              <p className="user-name">Alexander Cole</p>
+              <p className="user-name">{userName}</p>
               <p className="user-role">Manufacturer</p>
             </div>
           </Link>
@@ -50,12 +72,7 @@ const ManufacturerDashboardLayout = () => {
       </aside>
 
       <main className="dashboard-main">
-        <header className="dashboard-topbar">
-          <div className="topbar-left">
-            <h1 className="topbar-title">Manufacturer Dashboard</h1>
-          </div>
-          <div className="topbar-right"></div>
-        </header>
+        <DashboardTopbar title="Manufacturer Dashboard" />
 
         <div className="dashboard-content">
           <Outlet />

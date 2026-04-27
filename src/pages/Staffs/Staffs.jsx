@@ -38,7 +38,8 @@ const Staffs = ({type}) => {
 
     const onSubmit = async (data) => {
     try {
-        await authService.registerStaff(type,data); 
+        const response = await authService.registerStaff(type,data); 
+
 
         const updatedStaffs = await profileService.getStaffs(type); 
 

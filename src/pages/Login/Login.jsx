@@ -37,19 +37,35 @@ const Login = () => {
       });
 
       const userRole = result?.role?.toLowerCase() || result?.user?.role?.toLowerCase() || 'manufacturer';
-      console.log('Login attempt success:', result, 'Role:', userRole);
 
       if (result && result.id) {
         localStorage.setItem('userId', result.id);
+        localStorage.setItem('roleId', result.roleId);
       } else if (result && result.userId) {
         localStorage.setItem('userId', result.userId);
+        localStorage.setItem('roleId', result.roleId);
       } else if (result && result.user && result.user.id) {
         localStorage.setItem('userId', result.user.id);
+        localStorage.setItem('roleId', result.roleId);
+      }
+
+      // Store JWT Token
+      const token = result?.token || result?.jwt || result?.accessToken;
+      if (token) {
+        localStorage.setItem('jwtToken', token);
+      } else {
+        throw new Error('Authentication failed: No valid token received from server');
       }
 
       // Store the user role inside localStorage
       if (userRole) {
         localStorage.setItem('role', userRole);
+      }
+
+      // Store the username / email
+      const username = result?.username || result?.name || result?.user?.username || result?.user?.name || data.email;
+      if (username) {
+        localStorage.setItem('username', username);
       }
 
       navigate(`/${userRole}`);
@@ -69,6 +85,7 @@ const Login = () => {
       title: 'Automated workflows',
       desc: 'Notifications for order updates and approvals.',
     },
+    
     {
       icon: <Lock size={22} />,
       title: 'Secure management',

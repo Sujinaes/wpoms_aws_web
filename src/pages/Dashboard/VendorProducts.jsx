@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { productService } from '../../services/productService';
 
 const VendorProducts = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   const fetchProducts = async () => {
     try {
@@ -11,7 +13,7 @@ const VendorProducts = () => {
       const data = await productService.getAllProducts();
       setProducts(data || []);
     } catch (err) {
-      console.error(err.message || 'Failed to load products');
+      return err;
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +53,12 @@ const VendorProducts = () => {
               </tr>
             ) : products.length > 0 ? (
               products.map((product) => (
-                <tr key={product.id}>
+                <tr 
+                  key={product.id}
+                  onClick={() => navigate(`/vendor/product-catalog/${product.id}`)}
+                  style={{ cursor: 'pointer' }}
+                  className="clickable-row"
+                >
                   <td className="product-id" data-label="Product ID">{product.id}</td>
                   <td data-label="Product Name">{product.name}</td>
                   <td data-label="Category">{product.category}</td>
