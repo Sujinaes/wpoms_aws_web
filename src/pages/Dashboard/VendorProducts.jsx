@@ -13,7 +13,7 @@ const VendorProducts = () => {
       const data = await productService.getAllProducts();
       setProducts(data || []);
     } catch (err) {
-      console.error(err.message || 'Failed to load products');
+      return err;
     } finally {
       setIsLoading(false);
     }

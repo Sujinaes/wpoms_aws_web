@@ -82,7 +82,7 @@ const ProductDetails = () => {
         maxWidth: '800px'
       }}>
         <div style={{ borderBottom: '1px solid var(--border-color, #e2e8f0)', paddingBottom: '1.5rem', marginBottom: '1.5rem' }}>
-          <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)', marginBottom: '0.5rem' }}>{product.name}</h3>
+          <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)', marginBottom: '0.5rem' }}>{product?.name || 'N/A'}</h3>
           <span style={{ 
             display: 'inline-block', 
             background: 'var(--primary-color, #3182ce)', 
@@ -92,29 +92,29 @@ const ProductDetails = () => {
             fontSize: '0.875rem', 
             fontWeight: '500' 
           }}>
-            {product.category}
+            {product?.category || 'N/A'}
           </span>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
           <div>
             <h4 style={{ fontSize: '0.875rem', color: 'var(--text-muted, #718096)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Product ID</h4>
-            <p style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-color, #1a202c)' }}>{product.id}</p>
+            <p style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-color, #1a202c)' }}>{product?.id || 'N/A'}</p>
           </div>
           <div>
             <h4 style={{ fontSize: '0.875rem', color: 'var(--text-muted, #718096)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Price</h4>
-            <p style={{ fontSize: '1.125rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)' }}>{product.price}</p>
+            <p style={{ fontSize: '1.125rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)' }}>{product?.price || 'N/A'}</p>
           </div>
           <div>
             <h4 style={{ fontSize: '0.875rem', color: 'var(--text-muted, #718096)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.25rem' }}>Warranty Type</h4>
-            <p style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-color, #1a202c)' }}>{product.warranty}</p>
+            <p style={{ fontSize: '1rem', fontWeight: '500', color: 'var(--text-color, #1a202c)' }}>{product?.warranty || 'N/A'}</p>
           </div>
         </div>
 
         <div>
           <h4 style={{ fontSize: '1.125rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)', marginBottom: '0.75rem' }}>Description</h4>
           <p style={{ color: 'var(--text-secondary, #4a5568)', lineHeight: '1.6', whiteSpace: 'pre-wrap' }}>
-            {product.description}
+            {product?.description || 'N/A'}
           </p>
         </div>
       </div>

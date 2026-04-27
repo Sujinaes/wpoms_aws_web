@@ -39,12 +39,11 @@ const VendorProfile = () => {
         setProfileData(data);
         reset(data);
       } else {
-        console.log("No userId found");
         toast.error("You are not logged in");
         navigate("/login");
       }
     } catch (err) {
-      console.error("Error fetching vendor profile:", err);
+      return err;
     } finally {
       setLoading(false);
     }
@@ -62,8 +61,8 @@ const VendorProfile = () => {
       setIsEditing(false);
       fetchProfile();
     } catch (err) {
-      console.error(err);
       toast.error(err.message || "Failed to update profile");
+      return err;
     }
   };
 

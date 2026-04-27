@@ -2,7 +2,6 @@ import apiClient from '../apiClient';
 
 export const profileService = {
   updateCustomer: async (id, data) => {
-    console.log(data, id);
     try {
       const response = await apiClient.put(`/api/customer/update-customer?id=${id}`, data);
       return response.data || { success: true };

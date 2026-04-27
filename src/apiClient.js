@@ -38,7 +38,6 @@ apiClient.interceptors.response.use(
         response.data = JSON.parse(response.data);
 
       } catch (e) {
-        console.error(e)
         // Ignore if not valid JSON
       }
     }
@@ -46,7 +45,6 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
-      console.error('CORS or Network Error:', error);
       // We log this but let it pass to the component
       
     }

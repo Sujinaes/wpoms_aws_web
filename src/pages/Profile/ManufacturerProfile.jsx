@@ -40,7 +40,7 @@ const ManufacturerProfile = () => {
         reset(data);
       }
     } catch (err) {
-      console.error("Error fetching manufacturer profile:", err);
+      return err;
     } finally {
       setLoading(false);
     }
@@ -58,8 +58,8 @@ const ManufacturerProfile = () => {
       setIsEditing(false);
       fetchProfile();
     } catch (err) {
-      console.error(err);
       toast.error(err.message || "Failed to update profile");
+      return err;
     }
   };
 

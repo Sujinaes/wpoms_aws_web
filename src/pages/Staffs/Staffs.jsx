@@ -39,12 +39,9 @@ const Staffs = ({type}) => {
     const onSubmit = async (data) => {
     try {
         const response = await authService.registerStaff(type,data); 
-        console.log("staff registerd : ")
-        console.log(response)
 
 
         const updatedStaffs = await profileService.getStaffs(type); 
-        console.log("staffs are " , updatedStaffs)
 
         // add avatarText (since backend won't send it)
         const formatted = updatedStaffs.map(s => ({

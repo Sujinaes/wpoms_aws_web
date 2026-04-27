@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createPortal } from 'react-dom';
+
 import { useNavigate, Link } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
 import { toast } from 'sonner';
@@ -47,7 +47,7 @@ const DashboardTopbar = ({ title }) => {
         </button>
       </div>
 
-      {showLogoutConfirm && createPortal(
+      {showLogoutConfirm && (
         <div style={{
           position: 'fixed',
           top: 0, left: 0, right: 0, bottom: 0,
@@ -117,8 +117,7 @@ const DashboardTopbar = ({ title }) => {
               </button>
             </div>
           </div>
-        </div>,
-        document.body
+        </div>
       )}
     </header>
   );

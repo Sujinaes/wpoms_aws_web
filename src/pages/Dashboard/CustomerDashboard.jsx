@@ -17,8 +17,8 @@ const CustomerDashboardLayout = () => {
           setUserName(data?.customerName || "Customer");
         }
       } catch (err) {
-        console.error("Error fetching customer profile:", err);
         setUserName("Customer");
+        return err;
       }
     };
     fetchProfile();

@@ -2,8 +2,6 @@ import apiClient from '../apiClient';
 
 export const authService = {
   registerManufacturer: async (data) => {
-    console.log("manufacutreer details : ");
-    console.log(data);
     try {
       const response = await apiClient.post('/api/admin/register-manufacturer', data);
       return response.data || { success: true };
@@ -18,15 +16,11 @@ export const authService = {
   },
 
   registerVendor: async (data) => {
-    console.log("vendor details : ");
-    console.log(data);
-
     try {
       const response = await apiClient.post('/api/vendor/register', data);
       return response.data || { success: true };
     } catch (error) {
       const errorData = error.response?.data;
-      console.log("error data " + JSON.stringify(errorData));
       throw new Error(
         (errorData?.errors && Object.values(errorData.errors).join(", ")) || 
         errorData?.message || 
@@ -36,9 +30,6 @@ export const authService = {
   },
 
   registerCustomer: async (data) => {
-    console.log("customer details : ");
-    console.log(data);
-
     try {
       const response = await apiClient.post('/api/customer/register-customer', data);
       return response.data || { success: true };
@@ -58,8 +49,6 @@ export const authService = {
       manufacturer: '/api/admin/manufacturer/create-staff' // Was `${API_URL}` - check original
     };
 
-    console.log(`${type} staff details:`, data);
-
     try {
       let roleId = localStorage.getItem("roleId")
 
@@ -68,7 +57,6 @@ export const authService = {
       }else if(type == "manufacturer"){
         data = { ...data , manufacturerId: roleId}
       }
-      console.log("payload : " , data) 
       const response = await apiClient.post(STAFF_API[type], data);
       return response.data || { success: true };  
     } catch (error) {
@@ -82,8 +70,6 @@ export const authService = {
   },
 
   loginUser: async (data, role) => {
-    console.log(`login attempt for ${role}:`, data);
-
     try {
       const response = await apiClient.post('/api/login', data);
       return response.data || { success: true };

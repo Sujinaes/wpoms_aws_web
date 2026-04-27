@@ -19,8 +19,8 @@ const ManufacturerDashboardLayout = () => {
           setUserName(data?.companyName || "Manufacturer");
         }
       } catch (err) {
-        console.error("Error fetching manufacturer profile:", err);
         setUserName("Manufacturer");
+        return err;
       }
     };
     fetchProfile();

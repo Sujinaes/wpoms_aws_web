@@ -16,8 +16,8 @@ const VendorDashboardLayout = () => {
           setUserName(data?.vendorName || "Vendor");
         }
       } catch (err) {
-        console.error("Error fetching vendor profile:", err);
         setUserName("Vendor");
+        return err;
       }
     };
     fetchProfile();

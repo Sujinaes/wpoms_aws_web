@@ -37,7 +37,6 @@ const Login = () => {
       });
 
       const userRole = result?.role?.toLowerCase() || result?.user?.role?.toLowerCase() || 'manufacturer';
-      console.log('Login attempt success:', result, 'Role:', userRole);
 
       if (result && result.id) {
         localStorage.setItem('userId', result.id);
