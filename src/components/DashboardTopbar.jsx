@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 
 import { useNavigate, Link } from 'react-router-dom';
-import { LogOut } from 'lucide-react';
+import { LogOut, Menu } from 'lucide-react';
 import { toast } from 'sonner';
 
-const DashboardTopbar = ({ title }) => {
+const DashboardTopbar = ({ title, onToggleSidebar }) => {
   const navigate = useNavigate();
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
 
@@ -26,7 +26,14 @@ const DashboardTopbar = ({ title }) => {
 
   return (
     <header className="dashboard-topbar">
-      <div className="topbar-left">
+      <div className="topbar-left" style={{ display: 'flex', alignItems: 'center' }}>
+        <button 
+          onClick={onToggleSidebar}
+          className="hamburger-btn"
+          aria-label="Toggle Navigation"
+        >
+          <Menu size={24} />
+        </button>
         <h1 className="topbar-title">{title}</h1>
       </div>
       <div className="topbar-right">
