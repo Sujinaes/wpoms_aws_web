@@ -69,7 +69,7 @@ export const authService = {
     }
   },
 
-  loginUser: async (data, role) => {
+  loginUser: async (data) => {
     try {
       const response = await apiClient.post('/api/login', data);
       return response.data || { success: true };

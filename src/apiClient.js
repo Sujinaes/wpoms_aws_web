@@ -44,6 +44,12 @@ apiClient.interceptors.response.use(
     return response;
   },
   (error) => {
+    if (error.response && typeof error.response.data === 'string') {
+      try {
+        error.response.data = JSON.parse(error.response.data);
+      } catch (e) {}
+    }
+
     if (error.message === 'Network Error' || error.code === 'ERR_NETWORK') {
       // We log this but let it pass to the component
       
@@ -59,7 +65,7 @@ apiClient.interceptors.response.use(
       window.location.href = '/login';
     }
 
-    if (error.response.status === 403) {
+    if (error.response?.status === 403) {
       localStorage.removeItem('jwtToken');
       localStorage.removeItem('userId');
       localStorage.removeItem('role');

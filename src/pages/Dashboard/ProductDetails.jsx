@@ -67,7 +67,7 @@ const ProductDetails = () => {
           <h2>Product Details</h2>
           <p>Detailed view of product information.</p>
         </div>
-        <button className="btn-add-product" onClick={() => navigate(-1)} style={{ background: 'var(--text-color, #4a5568)' }}>
+        <button className="btn-add-product" onClick={() => navigate(-1)} style={{ background: 'var(--text-color, #b88f02)' }}>
           Back to Catalog
         </button>
       </div>
@@ -85,7 +85,7 @@ const ProductDetails = () => {
           <h3 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--text-color, #1a202c)', marginBottom: '0.5rem' }}>{product?.name || 'N/A'}</h3>
           <span style={{ 
             display: 'inline-block', 
-            background: 'var(--primary-color, #3182ce)', 
+            background: 'var(--primary-color, #b88f02)', 
             color: 'white', 
             padding: '0.25rem 0.75rem', 
             borderRadius: '9999px', 

@@ -8,17 +8,11 @@ import { toast } from 'sonner';
 const productSchema = z.object({
   name: z.string()
     .trim()
-    .min(3, "Minimum 3 characters required")
-    .refine(val => !/\d/.test(val), {
-      message: "Product name cannot contain numbers"
-    }),
+    .min(3, "Minimum 3 characters required"),
 
   category: z.string()
     .trim()
-    .min(1, "Category is required")
-    .refine(val => !/\d/.test(val), {
-      message: "Category cannot contain numbers"
-    }),
+    .min(1, "Category is required"),
 
   price: z.string()
     .min(1, "Price is required")
@@ -63,7 +57,7 @@ const ManufacturerProducts = () => {
         return {
           name: p.productName,
           category : p.category, 
-          price : p.price , 
+          price : String(p.price), 
           warranty : p.warrantyType,
           description : p.description,
           id: p.productId 
@@ -157,13 +151,11 @@ const ManufacturerProducts = () => {
     }
 
     try {
-      const response = await productService.addProduct(newProduct);
-      if (response.success && response.product) {
-        fetchProducts(); 
-        setErrors({});
-        closeAddModal();
-        toast.success('Product added successfully');
-      }
+      await productService.addProduct(newProduct);
+      fetchProducts(); 
+      setErrors({});
+      closeAddModal();
+      toast.success('Product added successfully');
     } catch (err) {
       toast.error(err.message || 'Failed to add product');
     }
