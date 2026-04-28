@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {authService} from '../../services/authService';
-import { profileService } from '../../services/profileService';
+import { profileService } from '../../services/profileService'; 
 import { useEffect } from 'react';
 import './Staffs.css';
 import { useForm } from 'react-hook-form';
@@ -19,6 +19,7 @@ const schema = z.object({
 const Staffs = ({type}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [staffs, setStaffs] = useState([]);
+    const [showPassword, setShowPassword] = useState(false);
 
     const {
         register,
@@ -178,7 +179,14 @@ useEffect(() => {
 
                                  <div className="form-group">
                                     <label>PASSWORD</label>
-                                    <input type="password" autoComplete="new-password" {...register('password')} className={errors.password ? 'error-input' : ''} />
+                                    <div className="password-input-wrapper">
+                                        <input type={showPassword ? "text" : "password"} autoComplete="new-password" {...register('password')} className={errors.password ? 'error-input' : ''} />
+                                        <button type="button" className="password-toggle-btn" onClick={() => setShowPassword(!showPassword)}>
+                                            <span className="material-symbols-outlined" style={{ fontSize: '1.25rem' }}>
+                                                {showPassword ? "visibility_off" : "visibility"}
+                                            </span>
+                                        </button>
+                                    </div>
                                     {errors.password && <p className="error">{errors.password.message}</p>}
                                 </div>
 
