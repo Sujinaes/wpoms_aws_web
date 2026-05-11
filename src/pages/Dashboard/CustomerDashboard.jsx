@@ -8,7 +8,7 @@ import { profileService } from '../../services/profileService';
 const CustomerDashboardLayout = () => {
   const [userName, setUserName] = useState("Loading...");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+        
   useEffect(() => {
     const fetchProfile = async () => {
       try {
