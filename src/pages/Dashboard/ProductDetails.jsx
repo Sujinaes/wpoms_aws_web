@@ -8,7 +8,7 @@ const ProductDetailsModal = ({ product, onClose, onEdit }) => {
       <div className="product-modal product-details-modal" onClick={(e) => e.stopPropagation()} style={{ padding: '1.5rem 1.75rem' }}>
 
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '1.25rem', paddingBottom: '1rem', borderBottom: '1px solid #e2e8f0' }}>
-          <div>
+          <div>                         
             <h3 style={{ fontSize: '1.35rem', fontWeight: 'bold', color: '#0f172a', margin: '0 0 0.4rem 0' }}>{product?.name || 'N/A'}</h3>
             <span style={{
               display: 'inline-block',
