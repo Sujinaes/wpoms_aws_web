@@ -8,7 +8,7 @@ import ProductDetailsModal from './ProductDetails';
 const productSchema = z.object({
   name: z.string()
     .trim()
-    .min(3, "Minimum 3 characters required"),
+             .min(3, "Minimum 3 characters required"),
 
   category: z.string()
     .trim()
