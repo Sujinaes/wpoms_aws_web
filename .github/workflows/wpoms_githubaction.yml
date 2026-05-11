@@ -24,7 +24,7 @@ jobs:
             cd /home/${{ secrets.EC2_USER }}/git/wpoms_aws_web
 
             # 2. Pull the latest code
-            git pull origin main
+            # git pull origin main
 
             # 3. Stop and remove the existing container (ignore error if it doesn't exist)
             sudo docker stop wpoms_web|| true
