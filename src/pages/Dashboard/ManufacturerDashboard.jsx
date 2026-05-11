@@ -12,6 +12,8 @@ const ManufacturerDashboardLayout = () => {
   const location = useLocation();
   const currentPath = location.pathname;
 
+  
+
   const isActive = (path) => {
     if (path === '/manufacturer') {
       return currentPath === '/manufacturer' || currentPath === '/manufacturer/';
